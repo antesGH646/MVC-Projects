@@ -6,7 +6,11 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * As @ConfigurationProperties is used to inject values from the properties file.
+ * the @ConfigurationPropertiesBinding is used to convert and inject values from the
+ * properties files. To do conversion must implement the Converter interface.
+ */
 @Component
 @ConfigurationPropertiesBinding
 //Converter interface asks 2 thing, what into what, String into RoleDTO
