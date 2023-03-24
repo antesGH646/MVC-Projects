@@ -1,0 +1,5 @@
+dto package occupies similar class as the entity or model package, but it do not interact with
+the database. It interacts with the services, mappers, and the controllers
+
+Note that: if a class is extending another class, lombok will not create a constructor for you
+therefore you need to create the constructor manually.

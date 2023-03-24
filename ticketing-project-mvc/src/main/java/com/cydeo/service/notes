@@ -1,0 +1,10 @@
+service package includes all the interfaces and their implementing classes
+that deal with the business logic(user stories or customer requirements)
+1) write the business logic as abstract methods in interfaces
+2) create implementing classes
+Services interact with:
+ - the DTO classes
+ - the services implementing classes
+ - the controller
+ - the repository classes
+
