@@ -1,0 +1,14 @@
+Business Logic
+1) As a user I want to create an account
+2) I should be able to see the list of accounts
+NB. One user must have two types of accounts saving and checking
+3) As a user I should be able to transfer money either into my account
+or someone else's account from account only.
+4) As a user I should be able to see all the transactions
+5) As a user I should be able to block transaction while under construction
+(transaction should be blocked during deployment new builds/modifications)
+6) As a user I should not be able to transfer if my balance is not enough
+for the desired transaction
+7) As a user I should not be able to transfer from one account type to the same
+account type.
+Meaning from my saving to my saving or from saving to the saving account of a different user
