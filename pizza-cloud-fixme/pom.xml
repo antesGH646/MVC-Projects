@@ -8,10 +8,10 @@
         <!--  lookup parent from repository  -->
     </parent>
     <groupId>com.cydeo</groupId>
-    <artifactId>pizza-cloud-project</artifactId>
+    <artifactId>pizza-cloud-fixme</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pizza-cloud-project</name>
-    <description>pizza-cloud-project</description>
+    <name>pizza-cloud-fixme</name>
+    <description>pizza-cloud-fixme</description>
     <properties>
         <java.version>11</java.version>
     </properties>
