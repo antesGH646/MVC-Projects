@@ -8,4 +8,5 @@ public interface CrudService<T,ID> {//when ever using generics pass the class pa
      List<T> findAll();
      T findById(ID id);
      void deleteById(ID id);
+     void update(T t);
 }

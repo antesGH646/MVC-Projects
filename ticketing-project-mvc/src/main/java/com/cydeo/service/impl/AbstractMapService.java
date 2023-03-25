@@ -11,9 +11,9 @@ public abstract class AbstractMapService<T,ID> {
     protected Map<ID,T> map = new HashMap<>();
 
     //will add the type e.g. role or user into the map object
-    T save(ID id,T object){
-        map.put(id,object);
-        return object;
+    T save(ID id,T t){
+        map.put(id,t);
+        return t;
     }
 
     //stores a list of the types e.g. roles or users
@@ -31,4 +31,7 @@ public abstract class AbstractMapService<T,ID> {
         map.remove(id);
     }
 
+    void update(ID id,T t){
+        map.put(id,t);
+    }
 }

@@ -32,4 +32,9 @@ public class UserServiceImpl extends AbstractMapService<UserDTO,String> implemen
     public UserDTO findById(String id) {
         return super.findById(id);
     }
+
+    @Override
+    public void update(UserDTO user) {
+        super.update(user.getUserName(),user);
+    }
 }

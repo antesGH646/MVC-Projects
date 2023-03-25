@@ -112,6 +112,7 @@
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-12">
                                                 <div class="float-right">
+                                                    <!--When Save is clicked an action must be performed th:action-->
                                                     <button type="submit" class="btn btn-success">Save</button>
                                                 </div>
                                             </div>
@@ -163,9 +164,12 @@
                                                 <td th:text="${user.gender.value}"></td>
                                                 <td th:text="${user.phone}"></td>
                                                 <td th:text="${user.role.description}"></td>
+                                                <!--these links are triggered when update or delete buttons are clicked
+                                                since controller endpoint is accepting parameter "/update/{username}"
+                                                to add parameter the syntax is: th:href="@{user/update/{id}(id=${user.userName})}-->
                                                 <td class="actions">
-                                                    <a href="#"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
-                                                    <a href="#" class="delete-row"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
+                                                    <a th:href="@{user/update/{id}(id=${user.userName})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
+                                                    <a th:href="@{user/delete/{id}(id=${user.userName})}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
                                                 </td>
                                             </tr>
 
