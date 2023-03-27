@@ -16,7 +16,8 @@
             <h2 class="mb-5">New User</h2>
             <div class="row">
                 <div class="col-md-6">
-                    <!--When the action Add User is pressed, redirects to the Controller create endpoint-->
+                    <!--When the action Add User is pressed, triggers the Controller's /create endpoint
+                    the method of /create endpoint post a data into the index table html-->
                     <form th:object="${account}" method="post" th:action="@{/create}" >
                         <div class="row">
                             <div class="form-group blu-margin">
@@ -31,11 +32,15 @@
 
                             <div class="form-group blu-margin">
                                 <label for="dropOperator" class="col-form-label">Account Type</label>
-                                <!--display the list of account types into the dropdown-->
+                                <!--th:field="*{accountType}" gets data from UI to Java object
+                                th:each="type : ${accountTypes}" th:value="${type.name()}" th:text="${type.name()}"
+                                display the Java object values into the UI-->
                                 <select class="form-control"  id="dropOperator" th:field="*{accountType}">
                                     <!--to display a prompting message to select from the list of account types-->
                                     <option value="0">Select Account </option>
-                                    <!--to display the options or the account types in the dropdown, th:each is like for each loop-->
+                                    <!--to display the options or the account types in the dropdown,
+                                    th:each is like for each loop, th:value="${type.name()}" sends the values to the
+                                    table name, th:text="${type.name()} displays the data into the UI table -->
                                     <option th:each="type : ${accountTypes}" th:value="${type.name()}" th:text="${type.name()}"></option>
                                 </select>
                             </div>

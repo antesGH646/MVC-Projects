@@ -23,7 +23,7 @@ public interface AccountService {
 
     //business logic creating a new account
     Account createNewAccount(BigDecimal balance, Date creationDate,
-                             AccountType accountType,Long userId);
+                             AccountType accountType, Long userId);
 
     //business logic storing list of accounts,
     List<Account> listAllAccount();

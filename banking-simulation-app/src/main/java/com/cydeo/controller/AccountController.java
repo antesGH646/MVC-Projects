@@ -45,30 +45,43 @@ public class AccountController {
      * into the java objects. Through model attribute the data is carried into
      * the HTML of the table, and then through the Thymeleaf the data is displayed
      * into the table.
+     * redirect: means not need to create model attribute => Model model
+     * model.addAttribute("accountList", accountService.listAllAccount())
+     *
      * @param account Account
      * @return the index html file to display a table filled out with data from the add new user form.
      */
     @PostMapping("/create") //create method to capture information from UI
     public String createAccount(@ModelAttribute("account") Account account) {
         System.out.println(account);//print them on the console.
-        //trigger createAccount method, create the account based on user input.
+        //trigger createAccount method, creates the account based on user input,
+        // will store whatever the user is entering.
         accountService.createNewAccount(account.getBalance(),
                 account.getCreationDate(),account.getAccountType(), account.getUserId());
         return "redirect:/index";
     }
 
+    /**
+     * get the account id from the UI and provide it the controller
+     * once the id is sent to the controller, need to find the account that
+     * belongs to the account, then update the account status in the html
+     * active to deleted and vice-versa
+     * To catch the account id from the html and provide it to the controller
+     * @param id UUID
+     * @return return the index html displaying the status to deleted or activated
+     */
     @GetMapping("/delete/{id}")
-        public String deleteAccount(@PathVariable("id")UUID id) {
+        public String deleteAccount(@PathVariable("id") UUID id) {
         System.out.println(id);
-        //trigger deleteAccount method
+        //trigger deleteAccount method, captures whatever id the user is entering in the UI
         accountService.deleteAccount(id);
         return "redirect:/index";
     }
 
-    @GetMapping("/actvate/{id}")
-    public String activateAccount(@PathVariable("id")UUID id) {
+    @GetMapping("/activate/{id}")
+    public String activateAccount(@PathVariable("id") UUID id) {
         System.out.println(id);
-        //trigger deleteAccount method
+        //trigger deleteAccount method,
         accountService.activateAccount(id);
         return "redirect:/index";
     }
