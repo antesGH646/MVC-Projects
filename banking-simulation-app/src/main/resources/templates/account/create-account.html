@@ -16,6 +16,7 @@
             <h2 class="mb-5">New User</h2>
             <div class="row">
                 <div class="col-md-6">
+                    <!--When the action Add User is pressed, redirects to the Controller create endpoint-->
                     <form th:object="${account}" method="post" th:action="@{/create}" >
                         <div class="row">
                             <div class="form-group blu-margin">
@@ -30,8 +31,11 @@
 
                             <div class="form-group blu-margin">
                                 <label for="dropOperator" class="col-form-label">Account Type</label>
+                                <!--display the list of account types into the dropdown-->
                                 <select class="form-control"  id="dropOperator" th:field="*{accountType}">
+                                    <!--to display a prompting message to select from the list of account types-->
                                     <option value="0">Select Account </option>
+                                    <!--to display the options or the account types in the dropdown, th:each is like for each loop-->
                                     <option th:each="type : ${accountTypes}" th:value="${type.name()}" th:text="${type.name()}"></option>
                                 </select>
                             </div>

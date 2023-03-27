@@ -5,6 +5,7 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service//used with services; it combines @Component, @Retention, @Documented
 public class UserServiceImpl extends AbstractMapService<UserDTO,String> implements UserService {
@@ -36,5 +37,18 @@ public class UserServiceImpl extends AbstractMapService<UserDTO,String> implemen
     @Override
     public void update(UserDTO user) {
         super.update(user.getUserName(),user);
+    }
+
+    /**
+     * Instead of using if-else and for loops the best
+     * way is to use Streams (Java update features)
+     * put the data in a pipeline, filter it, then put in a list
+     * @return UserDTO
+     */
+    @Override
+    public List<UserDTO> findManagers() {
+        return super.findAll().stream()
+                .filter(p -> p.getRole().getId() == 2)
+                .collect(Collectors.toList());
     }
 }

@@ -13,7 +13,7 @@ public class TransferController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/transfer")
+    @GetMapping("/make-transfer")
     public String getMakeTransfer() {
         return "transaction/make-transfer";
     }

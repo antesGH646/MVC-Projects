@@ -14,36 +14,44 @@ import java.util.UUID;
 
 @Controller
 public class AccountController {
-    //define a service, but need to create a constructor t
-    private final AccountService accountService;
+    //define a service, but need to create a constructor too
+    private final AccountService accountService;//to use methods in account service
 
-    //a constructor
+    //inject accountService object using a constructor
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
 
     @GetMapping("/index")
     public String getIndex(Model model) {
+        //want to display list of accounts on the UI
         model.addAttribute("accountList", accountService.listAllAccount());
-        return "account/index";//returns the index html file from the accounts sub folder under the templates
+        //returns the index html file found in the accounts sub-folder under the templates
+        return "account/index";
     }
 
-    @GetMapping("/create-form")
-    public String getCreateForm(Model model){
-        //empty account object provided
+    @GetMapping("/create-account")
+    public String addNewUserForm(Model model){
+        //want to display data from Account object into the UI
         model.addAttribute("account", Account.builder().build());
-        //account type enum needs to fill dropdown
+        //want to display a list of the account types from enum into the Account Type dropdown
         model.addAttribute("accountTypes", AccountType.values());
         return "account/create-account";
     }
 
-    //create method to capture information from UI,
-    //print them on the console.
-    //trigger createAccount method, create the account based on user input.
-
+    /**
+     * This Controller method captures a data entry from the UI and displays it
+     * into the table. accountService object calls a method to capture the UI data
+     * into the java objects. Through model attribute the data is carried into
+     * the HTML of the table, and then through the Thymeleaf the data is displayed
+     * into the table.
+     * @param account Account
+     * @return the index html file to display a table filled out with data from the add new user form.
+     */
     @PostMapping("/create") //create method to capture information from UI
     public String createAccount(@ModelAttribute("account") Account account) {
-        System.out.println(account);
+        System.out.println(account);//print them on the console.
+        //trigger createAccount method, create the account based on user input.
         accountService.createNewAccount(account.getBalance(),
                 account.getCreationDate(),account.getAccountType(), account.getUserId());
         return "redirect:/index";

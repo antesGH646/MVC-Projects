@@ -17,7 +17,8 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-md-6">
-            <div th:if="${accountList.size() == 0}"><!-- if-unless means if-else -->
+            <!-- if-unless means if-else -->
+            <div th:if="${accountList.size() == 0}">
                 <h2>No Accounts yet!</h2>
             </div>
             <div th:unless="${accountList.size()==0}">
@@ -35,7 +36,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!--in thymeleaf, th:each is like for each loop -->
+                    <!--The table does not show up unless a user is created. The java object gets
+                    the data from the UI (add new user page), and then it returns it through a model
+                    attribute to display it into the table using the Thymeleaf.
+                    in thymeleaf, th:each is like for each loop -->
                     <tr th:each = "account : ${accountList}" >
                         <td th:text="${account.userId}"></td>
                         <td th:text="${account.accountStatus}"></td>
@@ -49,8 +53,10 @@
                     </tbody>
                 </table>
             </div>
-            <p class="my-5"><a th:href="@{/create-form}" class="btn btn-primary">Create Account<i class="fas fa-user-plus ml-2"></i></a></p>
-            <p class="my-5"><a href="#" class="btn btn-primary">Make Transfer<i class="fas fa-user-plus ml-2"></i></a></p>
+            <!--If the Create Account button is clicked, directs to the create endpoint which displays the create-account html -->
+            <p class="my-5"><a th:href="@{/create-account}" class="btn btn-primary">Create Account<i class="fas fa-user-plus ml-2"></i></a></p>
+            <!--If the Make Transfer button is clicked, directs to the endpoint which displays the make transfer html -->
+            <p class="my-5"><a th:href="@{/make-transfer}" class="btn btn-primary">Make Transfer<i class="fas fa-user-plus ml-2"></i></a></p>
         </div>
     </div>
 </div>
