@@ -78,8 +78,12 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
     }
 
     /**
-     * This method filters out a given manager, and counts stores them in a list
-     * the completed tasks assigned to the manager.
+     * There separate UI tables (use list, task list, and project status). This method is connecting
+     * this tables to get data and return the list.
+     * This method gets all the projects, filters out the projects that belong
+     * to a given manager, from each project creates a new ProjectDTO (builds all args constructor)
+     * then finds the tasks, counts the tasks of a project based on status, then returns the project.
+     * Stores all the projects assigned to a manager and returns the lists.
      * @param manager UserDTO
      * @return list of assigned projects
      */
