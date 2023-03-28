@@ -41,14 +41,24 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    //when using path parameter must bind it using the @PathVariable(path-param)
     @GetMapping("/delete/{taskId}")
     public String deleteTask(@PathVariable("taskId") Long taskId) {
         taskService.deleteById(taskId);
         return "redirect:/task/create";
     }
 
-    //when using path parameter must bind it using the @PathVariable()
+    /**
+     * This method is used to display data from the table and display them on the UI after a
+     * user clicks the Update button. The model attributes carries the data of the Java objects,
+     * and the Thymeleaf displays them on the UI/form. After the User clicks the Save button,
+     * the updated data should populate again in the table.
+     * To update, you need two things. First, to display the Java objects into the UI form.
+     * For this, you need a Get mapping. Second, you need to grab the user entries and populate
+     * them or capture & display them into the table. For this, you need the Post mapping.
+     * When using path parameter, must bind it using the @PathVariable(path-param)
+     * @param taskId Long
+     * @return create html under the task folder
+     */
     @GetMapping("/update/{taskId}")
     public String editTask(@PathVariable("taskId") Long taskId, Model model) {
 
@@ -59,14 +69,27 @@ public class TaskController {
         return "task/update";
     }
 
-    //when using path parameter should bind it using the @PathVariable()
-//    @PostMapping("/update/{taskId}")
+    /**
+     * This method is used to populate the UI captured objects into the table.
+     * When using path parameter should bind it using the @PathVariable()
+     * @param task TaskDTO
+     * @return create html inside the task package
+     */
+//    @PostMapping("/update/{taskId}") //capture it the id from the UI
 //    public String updateTask(@PathVariable("taskId") Long taskId, TaskDTO task) {
-//        task.setId(taskId);
+//        task.setId(taskId);//assign the UI captured id
+//        //update the task object coming from model.addAttribute("task", taskService.findById(taskId))
 //        taskService.update(task);
+//        //redirecting to the model attributes and returning the create.html
 //        return "redirect:/task/create";
 //    }
 
+    /**
+     *  This method shows the easiest way to update and populate the update.
+     *  This is the power of Spring, if the {id} is parts of the fields, Spring
+     *  automatically binds the setter. But if you are using other than the field
+     *  inside the TaskDTO, you need to assign or set it manually.
+     */
     @PostMapping("/update/{id}")
     public String updateTask(TaskDTO task) {
         taskService.update(task);
