@@ -1,5 +1,6 @@
 service package includes all the interfaces and their implementing classes
 that deal with the business logic(user stories or customer requirements)
+The logic that we use in the Controllers comes from the services.
 1) write the business logic as abstract methods in interfaces
 2) create implementing classes
 Services interact with:

@@ -34,6 +34,11 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
         return super.findAll();
     }
 
+    /**
+     * This method finds the manager by passing the username
+     * @param id String, must pass the username
+     * @return returns the manager found by the username or id
+     */
     @Override
     public ProjectDTO findById(String id) {
         return super.findById(id);
@@ -60,6 +65,11 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
         super.save(byId.getProjectCode(), byId);//save it into the map
     }
 
+    /**
+     * This method filters out a given manager, and counts stores them in a list
+     * the uncompleted projects assigned to the manager.
+     * @return list of assigned projects
+     */
     @Override
     public List<ProjectDTO> findAllNonCompletedProjects() {
         return findAll().stream()
@@ -67,6 +77,12 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
                 .collect(Collectors.toList());
     }
 
+    /**
+     * This method filters out a given manager, and counts stores them in a list
+     * the completed tasks assigned to the manager.
+     * @param manager UserDTO
+     * @return list of assigned projects
+     */
     @Override
     public List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager) {
 

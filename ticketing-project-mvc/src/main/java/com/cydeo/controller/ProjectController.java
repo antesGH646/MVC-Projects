@@ -70,13 +70,12 @@ public class ProjectController {
 
     @GetMapping("/manager/project-status")
     public String getProjectByManager(Model model){
-
+        //finding a manager by passing the username
         UserDTO manager = userService.findById("john@cydeo.com");
-
+        //stores list of projects assigned to this manager
         List<ProjectDTO> projects = projectService.getCountedListOfProjectDTO(manager);
-
+        //to carry the list of managers to the html
         model.addAttribute("projects",projects);
-
         return "/manager/project-status";
     }
 
