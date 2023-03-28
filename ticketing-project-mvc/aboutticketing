@@ -1,0 +1,11 @@
+1) When the Admin logs into the application, the Admin can create users, update users, and delete users.
+2)When the Manager logs into the application, the manager can see projects assigned to him/her self.
+ Then, can pick any task and assign it to any employees. The manager can click on the Project Status
+ to see his/her assignment and complete them, and can also see unfinished and completed projects.
+ If all the projects are completed, the complete button is disabled, but if there is any open projects
+ it is not. As a developer you need to calculate the finished and uncompleted tasks and display
+ them under the Unfinished/Completed header.
+
+ A manager can create tasks, update tasks, and delete tasks.
+
+3) The employee update tasks
