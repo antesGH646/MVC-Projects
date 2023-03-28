@@ -16,12 +16,18 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implement
 
     @Override
     public TaskDTO save(TaskDTO object) {
+        // To handle exception, whenever the status is null, it will set/open a new status
         if (object.getTaskStatus() == null) {
             object.setTaskStatus(Status.OPEN);
         }
+       // To handle exception, whenever the date is null, it will set into a new date
         if (object.getAssignedDate() == null) {
             object.setAssignedDate(LocalDate.now());
         }
+        /*
+        After clicking the Save button, if the ID is null, it will not display it in the table.
+        It will throw exception. To handle it, whenever the ID is null it will set into a new id
+        */
         if (object.getId() == null) {
             object.setId(UUID.randomUUID().getMostSignificantBits());
         }
