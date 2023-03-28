@@ -10,7 +10,9 @@ import java.util.UUID;
 /**
  * Do not need @AllArgsConstructor because, do not want the ID to be assigned in the
  * constructor. The ID should come from the database, otherwise when creating new IDs
- * it will throw error due to null values (not in the DataGenerator)
+ * it will throw error due to null values (not in the DataGenerator).
+ * Without the database can include the id, but when using data from the database,
+ * the id should come from the database.
  */
 @NoArgsConstructor
 @Data
@@ -24,7 +26,7 @@ public class TaskDTO {
     private Status taskStatus;
     private LocalDate assignedDate;
 
-    //constructor without the primary key(id), b/c it comes from the Postgres(database)
+    //a constructor without the primary key(id), b/c it comes from the Postgres(database)
     public TaskDTO(ProjectDTO project, UserDTO assignedEmployee, String taskSubject, String taskDetail, Status taskStatus, LocalDate assignedDate) {
         this.project = project;
         this.assignedEmployee = assignedEmployee;
@@ -32,7 +34,8 @@ public class TaskDTO {
         this.taskDetail = taskDetail;
         this.taskStatus = taskStatus;
         this.assignedDate = assignedDate;
-        //assigning the id, but it is not included in the method signature or parameter
+        //assigning the id, but it is not included in the method signature or parameter,
+        // used when ever clicking the delete button
         this.id = UUID.randomUUID().getMostSignificantBits();
     }
 }
