@@ -1,9 +1,9 @@
 entity package is some times called model, it is the same thing.
 Most companies name it entity. This package occupies the classes that
 deal/connects with the mappers and repository classes, and the database
-During the discussion, you will be given what type of entity attributes to include
+During the dev team discussion, you will be given what type of entity attributes to include
 
-You might not want to display to the UI all the data that come from the database.
+You might not want to display all the data that come from the database into the UI .
 Some data might be unnecessary such as updated date inserted date , etc. This is database
 specific. To display the data from the database into the UI you need mappers. Mappers take the
 the data and convert it into dto. Then dto map them into the Controller.
