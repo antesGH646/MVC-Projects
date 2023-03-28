@@ -32,6 +32,8 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
+                                    <!--th:action="@{/task/update/{id}(id=${task.getId()}) catches the path endpoint
+                                    after the Save action is performed or Save button is clicked-->
                                     <form th:action="@{/task/update/{id}(id=${task.getId()})}" method="post"
                                           th:object="${task}">
 
