@@ -168,8 +168,8 @@
                                                 since controller endpoint is accepting parameter "/update/{username}"
                                                 to add parameter the syntax is: th:href="@{user/update/{id}(id=${user.userName})}-->
                                                 <td class="actions">
-                                                    <a th:href="@{user/update/{id}(id=${user.userName})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
-                                                    <a th:href="@{user/delete/{id}(id=${user.userName})}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
+                                                    <a th:href="@{/user/update/{id}(id=${user.userName})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
+                                                    <a th:href="@{/user/delete/{id}(id=${user.userName})}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
                                                 </td>
                                             </tr>
 
