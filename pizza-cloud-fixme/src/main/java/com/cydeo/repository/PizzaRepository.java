@@ -1,6 +1,6 @@
 package com.cydeo.repository;
 
-import com.cydeo.pizzacloud.model.Pizza;
+import com.cydeo.model.Pizza;
 
 import java.util.ArrayList;
 import java.util.List;
