@@ -41,7 +41,5 @@ public class DesignPizzaController {
         pizzaRepository.createPizza(pizza);
 
         return "redirect:/orders/current?pizzaId=" + pizza.getId();
-
     }
-
 }
