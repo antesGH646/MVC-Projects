@@ -37,7 +37,7 @@ public class DesignPizzaController {
     @PostMapping("/createPizza")
     public String processPizza(Pizza pizza) {
 
-        pizza.setId(UUID.randomUUID());
+        pizza.setId(UUID.randomUUID());//might be null
         pizzaRepository.createPizza(pizza);
 
         return "redirect:/orders/current?pizzaId=" + pizza.getId();
