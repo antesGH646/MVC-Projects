@@ -1,5 +1,6 @@
 package com.cydeo.controller;
 
+import com.cydeo.exception.PizzaNotFoundException;
 import com.cydeo.model.Pizza;
 import com.cydeo.model.PizzaOrder;
 import com.cydeo.repository.PizzaRepository;
@@ -32,8 +33,8 @@ public class OrderController {
         return "/orderForm";
     }
 
-    @PostMapping("/{pizzaId}")
-    public String processOrder(UUID pizzaId, PizzaOrder pizzaOrder) {
+    @PostMapping("/{pizzaId}")//need to have @PathVariable
+    public String processOrder(@PathVariable("pizzaId") UUID pizzaId, PizzaOrder pizzaOrder) {
 
         // Save the order
 
@@ -44,7 +45,9 @@ public class OrderController {
     //TODO
     private Pizza getPizza(UUID pizzaId) {
         // Get the pizza from repository based on it's id
-        return new Pizza();
+        return pizzaRepository.readAll().stream()
+                .filter(p ->p.getId().equals(pizzaId))
+                .findFirst().orElseThrow(() -> new PizzaNotFoundException("Pizza not Found!"));
     }
 
 }
