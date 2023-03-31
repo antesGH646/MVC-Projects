@@ -55,15 +55,19 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction makeTransfer(Account sender, Account receiver, BigDecimal amount,
                                     Date creationDate, String message) {
+
         if (!underConstruction) {//if under construction is not false (true) jumps to the else block
             validateAccount(sender, receiver);
             checkAccountOwnership(sender, receiver);
             //validating if the sender has enough balance otherwise must throw exception
             executeBalanceAndUpdateIfRequired(amount, sender, receiver);
+
             //After the transaction and money transfer is completed, create transaction object save/return it
             Transaction transaction = Transaction.builder().amount(amount).sender(sender.getId())
                     .receiver(receiver.getId()).creationDate(creationDate).message(message).build();
+
             return transactionRepository.addTransaction(transaction);
+
         } else {//if under construction is true stops the execution (throws exception)
             throw new UnderConstructionException("App is under construction,try again later.");
         }
@@ -84,8 +88,8 @@ public class TransactionServiceImpl implements TransactionService {
             //make balance transfer between sender and receiver, make the update
            sender.setBalance(sender.getBalance().subtract(amount));//updating when an amount is subtracted
            receiver.setBalance(receiver.getBalance().add(amount));//updating when an amount is added
-        }
-        else { //throw BalanceNotSufficientException, if the balance is not within the limit
+        } else {
+            //throw BalanceNotSufficientException, if the balance is not within the limit
             throw new BalanceNotSufficientException("Balance is not enough for this transfer.");
         }
     }
@@ -146,7 +150,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @param id UUID
      */
     private void findAccountById(UUID id) {
-        accountRepository.findById(id);
+        accountRepository.findAccountById(id);
     }
 
     /**
@@ -155,6 +159,17 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public List<Transaction> findAllTransaction() {
-        return transactionRepository.allTransactions();
+        return transactionRepository.findAllTransactions();
+    }
+
+    @Override
+    public List<Transaction> last10Transactions() {
+        //we want last 10 latest transaction
+        return transactionRepository.findLast10Transactions();
+    }
+
+    @Override
+    public List<Transaction> findTransactionListByID(UUID id) {
+        return transactionRepository.findTransactionListById(id);
     }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class Transaction {
-
+    //declare fields/attributes
     private UUID sender;//to uniquely identify a sender
     private UUID receiver;//to uniquely identify a receiver
     private BigDecimal amount;//to store the amount sent or received

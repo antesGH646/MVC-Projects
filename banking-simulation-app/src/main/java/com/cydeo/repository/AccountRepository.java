@@ -19,16 +19,16 @@ public class AccountRepository {
      * @return the list of AccountType
      */
     public Account addAccount(Account account) {
-        accountList.add(account);//adds the account into the list
-        return account;//returns the individual transaction
+        accountList.add(account);//adds an account into the list
+        return account;//returns each added individual account
     }
 
     /**
      * Holds individual accounts
      * @return a list of accounts
      */
-    public List<Account> allAccounts() {
-        return accountList; //returns the list of accounts
+    public List<Account> findAllAccounts() {
+        return accountList; //returns the above added list of accounts
     }
 
     /**
@@ -38,8 +38,8 @@ public class AccountRepository {
      * @param id account id
      * @return matching id
      */
-    public Account findById(UUID id) {
-        //finds an account from the list of accounts by id, otherwise exception if it does not exist
+    public Account findAccountById(UUID id) {
+        //finds an account from the list of accounts by id, otherwise throws exception if it does not exist
         return accountList.stream().filter(account -> account.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new RecordNotFoundException("Account not exist in the database."));

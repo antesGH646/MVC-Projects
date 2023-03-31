@@ -25,7 +25,7 @@ public class AccountController {
     @GetMapping("/index")
     public String getIndex(Model model) {
         //want to display list of accounts on the UI
-        model.addAttribute("accountList", accountService.listAllAccount());
+        model.addAttribute("accountList", accountService.listAllAccounts());
         //returns the index html file found in the accounts sub-folder under the templates
         return "account/index";
     }

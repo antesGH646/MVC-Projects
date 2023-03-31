@@ -6,6 +6,7 @@ import com.cydeo.model.Transaction;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The business logic is to make a transaction and store list of transactions.
@@ -23,4 +24,9 @@ public interface TransactionService {
 
     //finds all transactions and stores them in a list
     List<Transaction> findAllTransaction();
+
+    List<Transaction> last10Transactions();
+
+
+    List<Transaction> findTransactionListByID(UUID id);
 }

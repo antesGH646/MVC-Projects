@@ -26,11 +26,13 @@ public interface AccountService {
                              AccountType accountType, Long userId);
 
     //business logic storing list of accounts,
-    List<Account> listAllAccount();
+    List<Account> listAllAccounts();
 
     //business logic to delete an account
     void deleteAccount(UUID id);
 
     //business logic to activate an account
     void activateAccount(UUID id);
+
+    Account retrieveAccountById(UUID id);
 }

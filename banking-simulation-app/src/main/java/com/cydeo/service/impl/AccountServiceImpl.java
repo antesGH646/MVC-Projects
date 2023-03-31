@@ -20,7 +20,7 @@ public class AccountServiceImpl implements AccountService {
     //this class and the AccountRepository
    private final AccountRepository accountRepository;
 
-   //A constructor taking the AccountRepository as a parameter
+   //injecting by a constructor, takes the AccountRepository as a parameter
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -48,24 +48,46 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.addAccount(account);
     }
 
+    /**
+     * This method returns a list of all accounts
+     * @return list of all accounts
+     */
     @Override
-    public List<Account> listAllAccount() {
-        return accountRepository.allAccounts();
+    public List<Account> listAllAccounts() {
+        return accountRepository.findAllAccounts();
     }
 
+    /**
+     * This method deletes an account
+     * @param id UUID
+     */
     @Override
     public void deleteAccount(UUID id) {
         //find the account object based on id
-        Account account = accountRepository.findById(id);
+        Account account = accountRepository.findAccountById(id);
         //update the accountStatus of that object.
         account.setAccountStatus(AccountStatus.DELETED);
     }
 
+    /**
+     * This method activates a deleted account
+     * @param id UUID
+     */
     @Override
     public void activateAccount(UUID id) {
         //find the account object based on id
-        Account account = accountRepository.findById(id);
+        Account account = accountRepository.findAccountById(id);
         //update the accountStatus of that object.
         account.setAccountStatus(AccountStatus.ACTIVE);
+    }
+
+    /**
+     * This method get an account by its id
+     * @param id UUID
+     * @return returns an Account by its id
+     */
+    @Override
+    public Account retrieveAccountById(UUID id) {
+        return accountRepository.findAccountById(id);
     }
 }
