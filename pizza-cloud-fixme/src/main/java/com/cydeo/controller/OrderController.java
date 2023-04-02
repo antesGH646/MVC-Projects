@@ -21,33 +21,26 @@ public class OrderController {
     }
 
     @GetMapping("/current")
-    public String orderForm(UUID pizzaId, Model model) {
+    public String orderForm(@RequestParam UUID pizzaId, Model model) {
 
         PizzaOrder pizzaOrder = new PizzaOrder();
-
-        // Fix the getPizza method below in line 49.
+        // Fix the getPizza method below in line 42.
         pizzaOrder.setPizza(getPizza(pizzaId));
-
         model.addAttribute("pizzaOrder", pizzaOrder);
-
         return "/orderForm";
     }
 
     @PostMapping("/{pizzaId}")//need to have @PathVariable
     public String processOrder(@PathVariable("pizzaId") UUID pizzaId, PizzaOrder pizzaOrder) {
-
         // Save the order
-
         pizzaOrder.setPizza(getPizza(pizzaId));
         return "redirect:/home";
     }
 
-    //TODO
     private Pizza getPizza(UUID pizzaId) {
         // Get the pizza from repository based on it's id
         return pizzaRepository.readAll().stream()
                 .filter(p ->p.getId().equals(pizzaId))
                 .findFirst().orElseThrow(() -> new PizzaNotFoundException("Pizza not Found!"));
     }
-
 }
