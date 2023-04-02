@@ -24,22 +24,17 @@ public class DesignPizzaController {
 
     @GetMapping //3rd error, to retrieve GetMapping not PostMapping
     public String showDesignForm(Model model) {
-
         model.addAttribute("pizza", new Pizza());//4th error, Pizza object added
         model.addAttribute("cheeses", DataGenerator.cheeseTypeList);
         model.addAttribute("sauces", DataGenerator.sauceTypeList);
         model.addAttribute("toppings", DataGenerator.toppingTypeList);
-
         return "/design";
-
     }
 
     @PostMapping("/createPizza")
     public String processPizza(Pizza pizza) {
-
         pizza.setId(UUID.randomUUID());//might be null
         pizzaRepository.createPizza(pizza);
-
         return "redirect:/orders/current?pizzaId=" + pizza.getId();
     }
 }

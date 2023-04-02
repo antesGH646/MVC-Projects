@@ -29,8 +29,8 @@
         </div>
 
     </div>
-
-    <form method="post" th:action="@{/orders}" th:object="${pizzaOrder}">
+    <!-- added the path parameter to display the order => /{id}(id=${pizzaOrder.pizza.id})-->
+    <form method="post" th:action="@{/orders/{id}(id=${pizzaOrder.pizza.id})}" th:object="${pizzaOrder}">
 
         <div class="form-group">
 
