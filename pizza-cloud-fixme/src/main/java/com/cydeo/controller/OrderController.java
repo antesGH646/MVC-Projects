@@ -32,13 +32,14 @@ public class OrderController {
 
     @PostMapping("/{pizzaId}")//need to have @PathVariable
     public String processOrder(@PathVariable("pizzaId") UUID pizzaId, PizzaOrder pizzaOrder) {
-        // Save the order
+        // Save the order, sets the filtered and found id as the endpoint of the ordered pizza
         pizzaOrder.setPizza(getPizza(pizzaId));
         return "redirect:/home";
     }
 
     private Pizza getPizza(UUID pizzaId) {
-        // Get the pizza from repository based on it's id
+        // Get the pizza from repository based on it's id, if the id is not the same or not found
+        //it should throw exception. The designed and the ordered pizza must have the same id
         return pizzaRepository.readAll().stream()
                 .filter(p ->p.getId().equals(pizzaId))
                 .findFirst().orElseThrow(() -> new PizzaNotFoundException("Pizza not Found!"));

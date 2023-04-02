@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component //5th error: @Component should be added to inject it when the methods are needed/called
 public class PizzaRepository {
 
     private static List<Pizza> pizzaList = new ArrayList<>();

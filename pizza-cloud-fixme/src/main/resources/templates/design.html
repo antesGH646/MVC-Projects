@@ -16,8 +16,9 @@
     <br>
 
     <h1>Design your pizza!</h1>
+    <!--To display the pizza image in the Design your pizza! page-->
     <img th:src="@{/images/pizza.png}"/>
-
+<!--After Submit your pizza button action, redirects to the /orders/current?pizzaId=" + pizza.getId()-->
     <form th:object="${pizza}" th:action="@{/design/createPizza}" method="post">
 
         <div class="row">
