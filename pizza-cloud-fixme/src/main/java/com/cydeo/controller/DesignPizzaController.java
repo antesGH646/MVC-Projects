@@ -25,7 +25,8 @@ public class DesignPizzaController {
 
     @GetMapping //6th error, to retrieve @GetMapping is used not @PostMapping
     public String showDesignForm(Model model) {
-        model.addAttribute("pizza", new Pizza());//4th error cannot display objects: Pizza object added
+        //7th error: to display objects Pizza object must be added
+        model.addAttribute("pizza", new Pizza());
         model.addAttribute("cheeses", DataGenerator.cheeseTypeList);
         model.addAttribute("sauces", DataGenerator.sauceTypeList);
         model.addAttribute("toppings", DataGenerator.toppingTypeList);

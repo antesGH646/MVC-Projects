@@ -22,9 +22,9 @@ public class OrderController {
 
     @GetMapping("/current")
     public String orderForm(@RequestParam UUID pizzaId, Model model) {
-
+        //creating an object of PizzaOrder
         PizzaOrder pizzaOrder = new PizzaOrder();
-        // Fix the getPizza method below in line 42.
+        //getPizza() method below should be fixed first, b/c the id might be null
         pizzaOrder.setPizza(getPizza(pizzaId));
         model.addAttribute("pizzaOrder", pizzaOrder);
         return "/orderForm";
@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     private Pizza getPizza(UUID pizzaId) {
-        // Get the pizza from repository based on it's id, if the id is not the same or not found
+        // Get the pizza from repository based on its id, if the id isn't the same or not found
         //it should throw exception. The designed and the ordered pizza must have the same id
         return pizzaRepository.readAll().stream()
                 .filter(p ->p.getId().equals(pizzaId))
