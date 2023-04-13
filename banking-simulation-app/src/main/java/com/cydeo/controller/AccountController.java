@@ -5,11 +5,13 @@ import com.cydeo.model.Account;
 import com.cydeo.service.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
@@ -47,12 +49,20 @@ public class AccountController {
      * into the table.
      * redirect: means not need to create model attribute => Model model
      * model.addAttribute("accountList", accountService.listAllAccount())
-     *
+     * @Valid annotation should before the model Java object you need to validate, not before or after
+     * the BindingResult object
      * @param account Account
      * @return the index html file to display a table filled out with data from the add new user form.
      */
     @PostMapping("/create") //create method to capture information from UI
-    public String createAccount(@ModelAttribute("account") Account account) {
+    public String createAccount(@ModelAttribute("account") @Valid Account account,
+                                BindingResult bindingResult, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("accountTypes", AccountType.values());
+            return "account/create-account"; //return it to the same page until the user input is right
+        }
+
         System.out.println(account);//print them on the console.
         //trigger createAccount method, creates the account based on user input,
         // will store whatever the user is entering.
