@@ -22,9 +22,6 @@ public class Cart extends BaseEntity {
     @OneToOne
     private Orders orders;
 
-//    @OneToMany(mappedBy = "cart")
-//    private List<CartItem> cartItem;
-//
-//    @OneToMany(mappedBy = "cart")
-//    private List<Product> product;
+    @OneToMany(mappedBy = "cart")
+    private List<CartItem> cartItem;
 }
