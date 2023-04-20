@@ -19,6 +19,9 @@ public class Cart extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Discount discount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Customer customer;
+
     @OneToOne
     private Orders orders;
 

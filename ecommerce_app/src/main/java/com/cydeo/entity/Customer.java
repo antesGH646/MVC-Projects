@@ -27,6 +27,9 @@ public class Customer extends BaseEntity{
     @OneToMany(mappedBy = "customer")
     private List<Orders> orders ;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Cart> carts ;
+
     public Customer(String email, String firstName,
                     String lastName, String userName) {
         this.email = email;
