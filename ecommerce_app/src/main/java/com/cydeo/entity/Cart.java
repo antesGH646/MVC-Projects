@@ -16,7 +16,7 @@ public class Cart extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CartState cartState;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Discount discount;
 
     @OneToOne
