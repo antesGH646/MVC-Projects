@@ -1,7 +1,8 @@
 package com.cydeo.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +11,8 @@ import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Entity
 public class Orders extends BaseEntity{
     private BigDecimal paidPrice;

@@ -1,16 +1,17 @@
 package com.cydeo.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
 
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Entity
 public class Customer extends BaseEntity{
     private String email;
@@ -29,12 +30,4 @@ public class Customer extends BaseEntity{
 
     @OneToMany(mappedBy = "customer")
     private List<Cart> carts ;
-
-    public Customer(String email, String firstName,
-                    String lastName, String userName) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-    }
 }

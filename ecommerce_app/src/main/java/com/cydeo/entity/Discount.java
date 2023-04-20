@@ -1,8 +1,9 @@
 package com.cydeo.entity;
 
 import com.cydeo.enums.DiscountType;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +13,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Entity
 public class Discount extends BaseEntity {
      private BigDecimal discount;
