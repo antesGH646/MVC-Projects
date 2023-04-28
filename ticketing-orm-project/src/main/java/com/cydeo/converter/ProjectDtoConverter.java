@@ -6,6 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Instead of getting Java object you will get a String from the UI user entry
+ * You need to convert this string into ProjectDTO object
+ */
 @Component
 @ConfigurationPropertiesBinding
 public class ProjectDtoConverter implements Converter<String, ProjectDTO> {

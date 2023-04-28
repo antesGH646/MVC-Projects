@@ -29,7 +29,7 @@ public class ProjectController {
 
         model.addAttribute("project", new ProjectDTO());
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("managers", userService.findManagers());
+        model.addAttribute("managers", userService.listAllUsers());
 
         return "/project/create";
 
@@ -41,7 +41,7 @@ public class ProjectController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("projects", projectService.findAll());
-            model.addAttribute("managers", userService.findManagers());
+            model.addAttribute("managers", userService.listAllUsers());
 
             return "/project/create";
 
@@ -69,7 +69,7 @@ public class ProjectController {
 
         model.addAttribute("project", projectService.findById(projectcode));
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("managers", userService.findManagers());
+        model.addAttribute("managers", userService.listAllUsers());
 
         return "/project/update";
 
@@ -81,7 +81,7 @@ public class ProjectController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("projects", projectService.findAll());
-            model.addAttribute("managers", userService.findManagers());
+            model.addAttribute("managers", userService.listAllUsers());
 
             return "/project/update";
 
@@ -95,7 +95,7 @@ public class ProjectController {
     @GetMapping("/manager/project-status")
     public String getProjectByManager(Model model) {
 
-        UserDTO manager = userService.findById("john@cydeo.com");
+        UserDTO manager = userService.findByUserName("john@cydeo.com");
 
         List<ProjectDTO> projects = projectService.getCountedListOfProjectDTO(manager);
 

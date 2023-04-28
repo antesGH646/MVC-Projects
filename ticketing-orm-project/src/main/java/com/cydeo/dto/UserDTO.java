@@ -38,7 +38,7 @@ public class UserDTO {
     private String phone;
 
     @NotNull
-    private RoleDTO role;
+    private RoleDTO role; //UserDTO has RoleDTO object dependency
 
     @NotNull
     private Gender gender;

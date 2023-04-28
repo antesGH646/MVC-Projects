@@ -6,6 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Instead of getting Java object you will get a String from the UI user entry
+ * You need to convert this string into UserDTO object
+ */
 @Component
 @ConfigurationPropertiesBinding
 public class UserDtoConverter implements Converter<String, UserDTO> {
@@ -18,7 +22,7 @@ public class UserDtoConverter implements Converter<String, UserDTO> {
 
     @Override
     public UserDTO convert(String source) {
-        return userService.findById(source);
+        return userService.findByUserName(source);
     }
 
 }

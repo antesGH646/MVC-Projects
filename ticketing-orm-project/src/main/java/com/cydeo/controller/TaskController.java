@@ -31,7 +31,7 @@ public class TaskController {
 
         model.addAttribute("task", new TaskDTO());
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("employees", userService.findEmployees());
+        model.addAttribute("employees", userService.listAllUsers());
         model.addAttribute("tasks", taskService.findAll());
 
         return "task/create";
@@ -43,7 +43,7 @@ public class TaskController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("projects", projectService.findAll());
-            model.addAttribute("employees", userService.findEmployees());
+            model.addAttribute("employees", userService.listAllUsers());
             model.addAttribute("tasks", taskService.findAll());
 
             return "/task/create";
@@ -66,7 +66,7 @@ public class TaskController {
 
         model.addAttribute("task", taskService.findById(taskId));
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("employees", userService.findEmployees());
+        model.addAttribute("employees", userService.listAllUsers());
         model.addAttribute("tasks", taskService.findAll());
 
         return "task/update";
@@ -86,7 +86,7 @@ public class TaskController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("projects", projectService.findAll());
-            model.addAttribute("employees", userService.findEmployees());
+            model.addAttribute("employees", userService.listAllUsers());
             model.addAttribute("tasks", taskService.findAll());
 
             return "/task/update";
