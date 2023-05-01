@@ -4,6 +4,7 @@ import com.cydeo.enums.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -12,6 +13,8 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "users")
+@Where(clause = "is_deleted=false")//will automatically concatenate
+// wherever the user repository is using the User
 public class User extends BaseEntity {
 
     private String firstName;
@@ -29,6 +32,18 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)//to avoid the default 0 & 1 ordinal values
     private Gender gender;
 
-    //No constructor b/c no need to use DataGenerator
-    // It is directly using the database
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", enabled=" + enabled +
+                ", phone='" + phone + '\'' +
+                ", gender=" + gender +
+                '}';
+    }
+
+    //since it is using database no constructor b/c no need to use DataGenerator
 }
