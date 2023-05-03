@@ -10,8 +10,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //creating custom method
     User findByUserName(String username);
 
-    //if you are using the ddl operation must use the @Modify annotation,
-    // but when you are using the  derived queries methods must use the @Transactional
+    /**
+     * If you are using the ddl(data definition language) operation
+     * (create, alter, drop, truncate, rename, commit) you must use
+     * the @Modifying annotation, but when you are using the  derived
+     * queries methods must use the @Transactional
+    */
     @Transactional
     void deleteByUserName(String username);
 }
