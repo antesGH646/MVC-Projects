@@ -17,10 +17,13 @@ public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false, updatable = false)//to make the column not updatable and not null
     private LocalDateTime insertDateTime;
+    @Column(nullable = false, updatable = false)
     private Long insertUserId;//security dynamically tracks the changes made by the app users
+    @Column(nullable = false)
     private LocalDateTime lastUpdateDateTime;//security puts the date and time in the table
+    @Column(nullable = false)
     private Long lastUpdateUserId;//security tracks the changes, puts the id in the db
 
     //in real life deleting a row from a database is not good practice,
