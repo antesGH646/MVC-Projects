@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "users")
-@Where(clause = "is_deleted=false")//will automatically concatenate
-// wherever the user repository is using the User
+@Where(clause = "is_deleted=false")//this clause will automatically be added/concatenated
+// to whatever repository method that uses the User entity, it helps to add more filter
 public class User extends BaseEntity {
 
     private String firstName;
