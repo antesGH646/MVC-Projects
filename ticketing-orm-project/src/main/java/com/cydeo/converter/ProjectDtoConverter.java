@@ -17,7 +17,7 @@ public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
 
     ProjectService projectService;
 
-    //injection
+    //injection, @Lazy is added to prevent circular looping of the toString() method calling
     public ProjectDtoConverter(@Lazy ProjectService projectService) {
         this.projectService = projectService;
     }
@@ -27,6 +27,6 @@ public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
         if (source == null || source.equals("")) {
             return null;
         }
-        return projectService.findById(source);
+        return projectService.getByProjectCode(source);
     }
 }
