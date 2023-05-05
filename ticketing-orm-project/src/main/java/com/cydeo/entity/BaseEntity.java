@@ -34,10 +34,23 @@ public class BaseEntity {
      * Spring understands this method by the @PrePersis annotation
      */
     @PrePersist//marks/tells spring to execute this code for every action done in the db
-    public void onPersist() {
+    public void onPrePersist() {
         this.insertDateTime = LocalDateTime.now();
         this.insertUserId= 1L;
         this.lastUpdateDateTime = LocalDateTime.now();
         this.lastUpdateUserId = 1L;
     }
+
+    /**
+     * For update in the database this method will be executed to
+     * record the user id with date and time
+     * The fields are initialized in this method
+     * Spring understands this method by the @PreUpdate annotation
+     */
+    @PreUpdate
+    public void onPreUpdate() {
+        this.lastUpdateDateTime = LocalDateTime.now();
+        this.lastUpdateUserId = 1L;
+    }
+
 }
