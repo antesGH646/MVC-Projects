@@ -17,7 +17,9 @@ import java.time.LocalDate;
 @Where(clause = "is_deleted=false")
 public class Project extends BaseEntity{
 
+    @Column(unique = true)//to avoid project code duplication
     private String projectCode;
+    @Column(unique = true)//to prevent project name duplication
     private String projectName;
     
     @ManyToOne(fetch = FetchType.LAZY)//one manager can be assigned to many projects
