@@ -75,6 +75,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> listAllOfRoles(String role) {
+        List<User> userList = userRepository.findAllByRoleDescriptionIgnoreCase(role);
+        return userList.stream().map(userMapper::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public void delete(String username) {
         //don't want to delete from the database, only change the flag in the db
         User user = userRepository.findByUserName(username);
