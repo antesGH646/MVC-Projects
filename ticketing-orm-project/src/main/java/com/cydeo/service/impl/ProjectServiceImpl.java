@@ -116,6 +116,15 @@ public class ProjectServiceImpl implements ProjectService {
     project.setProjectStatus(Status.COMPLETE);
     projectRepository.save(project);
     }
+
+    /**
+     * This method returns a list of all project details
+     * @return a list of project details
+     */
+    @Override
+    public List<ProjectDTO> listAllProjectDetails() {
+        return null;
+    }
 }
 
 

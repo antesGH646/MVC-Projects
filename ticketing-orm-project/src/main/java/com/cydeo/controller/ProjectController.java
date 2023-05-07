@@ -1,6 +1,7 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/project")
@@ -45,15 +47,12 @@ public class ProjectController {
      * @return create html under the project package
      */
     @PostMapping("/create")
-    public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
-
+    public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project,
+                                BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("projects", projectService.listAllProjects());
             model.addAttribute("managers", userService.listAllByRole("manager"));
-
             return "/project/create";
-
         }
         projectService.save(project);
         return "redirect:/project/create";
@@ -77,44 +76,36 @@ public class ProjectController {
     }
 
     @GetMapping("/update/{project-code}")
-    public String editProject(@PathVariable("project-code") String projectCode, Model model) {
-
+    public String editProject(@PathVariable("project-code") String projectCode,
+                              Model model) {
         model.addAttribute("project", projectService.getByProjectCode(projectCode));
         model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("managers", userService.listAllByRole("manager"));
-
         return "/project/update";
     }
 
     @PostMapping("/update")
-    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
-
+    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project,
+                                BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("projects", projectService.listAllProjects());
             model.addAttribute("managers", userService.listAllByRole("manager"));
-
             return "/project/update";
-
         }
-
         projectService.update(project);
         return "redirect:/project/create";
-
     }
 
-
-//    @GetMapping("/manager/project-status")
-//    public String getProjectByManager(Model model) {
-//
-//        UserDTO manager = userService.findByUserName("john@cydeo.com");
-//
-//      //  List<ProjectDTO> projects = projectService.complete(manager);
-//
-//     //   model.addAttribute("projects", projects);
-//
-//        return "/manager/project-status";
-//    }
-
-
+    /**
+     * This method is used to display the Project Status page
+     * @param model Model
+     * @return Project List of the Project Status menu
+     */
+    @GetMapping("/manager/project-status")
+    public String getProjectByManager(Model model) {
+        UserDTO manager = userService.findByUserName("john@cydeo.com");
+        List<ProjectDTO> projects = projectService.listAllProjectDetails();
+        model.addAttribute("projects", projects);
+        return "/manager/project-status";
+    }
 }
