@@ -49,7 +49,9 @@ public class ProjectController {
     public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("projects", projectService.listAllProjects());
+            //return projects assigned only to the manager, not all projects
+           // model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
             model.addAttribute("managers", userService.listAllByRole("manager"));
             return "/project/create";
         }
@@ -78,7 +80,7 @@ public class ProjectController {
     public String editProject(@PathVariable("project-code") String projectCode,
                               Model model) {
         model.addAttribute("project", projectService.getByProjectCode(projectCode));
-        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("projects", projectService.listAllProjectDetails());
         model.addAttribute("managers", userService.listAllByRole("manager"));
         return "/project/update";
     }
@@ -87,7 +89,7 @@ public class ProjectController {
     public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
             model.addAttribute("managers", userService.listAllByRole("manager"));
             return "/project/update";
         }
