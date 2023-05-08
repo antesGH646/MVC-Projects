@@ -1,11 +1,16 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
+import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.ProjectMapper;
+import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.ProjectRepository;
 import com.cydeo.service.ProjectService;
+import com.cydeo.service.TaskService;
+import com.cydeo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +22,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;//to fetch projects from the database
     private final ProjectMapper projectMapper;//used to convert the fetched projects into DTOs
-
-    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper) {
+    private final UserService userService;//to use it methods from the UserService in Project Status
+    private final UserMapper userMapper;
+    private final TaskService taskService;
+    public ProjectServiceImpl(ProjectRepository projectRepository,
+                              ProjectMapper projectMapper, UserService userService,
+                              UserMapper userMapper,TaskService taskService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
+        this.userService = userService;
+        this.userMapper = userMapper;
+        this.taskService = taskService;
     }
 
     /**
@@ -119,11 +131,26 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * This method returns a list of all project details
+     * The manager has to see the list of projects after he/she
+     * logs into the system
+     * Fist all the projects from the db should be assigned to the manager
      * @return a list of project details
      */
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
-        return null;
+        //hard coding the manager by passing the username
+        UserDTO currentUserDTO = userService.findByUserName("harold@manager.com");
+        //convert the captured user into entity
+        User user = userMapper.convertToEntity(currentUserDTO);
+        //putting the converted user into a list assigned to the manager
+        List<Project> list = projectRepository.findAllProjectsByAssignedManager(user);
+        //since none of the projects has task count, assign them to a new one, then return
+        return list.stream().map(p -> {
+            ProjectDTO projectDTO = projectMapper.convertToDTO(p);
+            projectDTO.setUnfinishedTaskCounts(taskService.totalUncompletedTasks(p.getProjectCode()));
+            projectDTO.setCompleteTaskCounts(taskService.totalCompletedTasks(p.getProjectCode()));
+            return projectDTO;
+        }).collect(Collectors.toList());
     }
 }
 

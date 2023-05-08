@@ -17,7 +17,8 @@ Controller requests certain data, to get the data go to the database
  that returns the model mapper annotated with @Bean (b/c it
  is a 3rd party library) in the runner class or can put it in a
  configuration class then pass its name as a parameter in the runner class.
- What ever data that comes from the database is stored in the entity objects, but controllers need
- DTO objects to display the data into the UI. You need to have a mapper package that
- occupies the classes that deal with converting entities into DTOs.
+ What ever data that comes from the database is stored in the entity objects,
+ but controllers need DTO objects to display the data into the UI.
+ You need to have a mapper package that  occupies the classes that
+ deal with converting entities into DTOs.
 

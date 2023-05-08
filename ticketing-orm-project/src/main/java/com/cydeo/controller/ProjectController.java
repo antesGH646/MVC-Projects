@@ -1,7 +1,6 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
-import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -103,7 +102,6 @@ public class ProjectController {
      */
     @GetMapping("/manager/project-status")
     public String getProjectByManager(Model model) {
-        UserDTO manager = userService.findByUserName("john@cydeo.com");
         List<ProjectDTO> projects = projectService.listAllProjectDetails();
         model.addAttribute("projects", projects);
         return "/manager/project-status";

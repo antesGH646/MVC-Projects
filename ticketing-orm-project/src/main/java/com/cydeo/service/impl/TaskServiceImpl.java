@@ -107,10 +107,20 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(Long id) {
         //Since findById() returns Optional, the Task object must be Optional
-        Optional<Task> deleteTask = taskRepository.findById(id);
-        if (deleteTask.isPresent()) {
-            deleteTask.get().setIsDeleted(true);
-            taskRepository.save(deleteTask.get());
+        Optional<Task> foundTask = taskRepository.findById(id);
+        if (foundTask.isPresent()) {
+            foundTask.get().setIsDeleted(true);
+            taskRepository.save(foundTask.get());
         }
+    }
+
+    @Override
+    public int totalUncompletedTasks(String projectCode) {
+        return taskRepository.totalUncompletedTasks(projectCode);
+    }
+
+    @Override
+    public int totalCompletedTasks(String projectCode) {
+        return taskRepository.totalCompletedTasks(projectCode);
     }
 }
