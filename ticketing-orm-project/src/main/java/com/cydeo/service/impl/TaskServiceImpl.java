@@ -164,7 +164,7 @@ public class TaskServiceImpl implements TaskService {
     /**
      * This method lists all tasks by status
      * @param status Status
-     * @return
+     * @return lis ot TaskDTOs
      */
     @Override
     public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
@@ -197,11 +197,20 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public void updateStatus(TaskDTO dto) {
+        //id is coming from db not from the dto or UI form, so no need to convert it to entity
         Optional<Task> task = taskRepository.findById(dto.getId());
         if(task.isPresent()) {
-            task.get().setTaskStatus(dto.getTaskStatus());//set to whatever the status is currently
-            taskRepository.save(task.get());
+            //do the changes on the db directly, set to whatever the status is currently
+            task.get().setTaskStatus(dto.getTaskStatus());
+            taskRepository.save(task.get()); //save the changes
         }
+    }
+
+    @Override
+    public List<TaskDTO> listAllTasksByAssignedEmployee(User assignedEmployee) {
+        //get a list of tasks assigned to an employee
+        List<Task> taskList = taskRepository.findAllByAssignedEmployee(assignedEmployee);
+        return taskList.stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
     }
 
     /**

@@ -1,9 +1,13 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
+import com.cydeo.service.ProjectService;
+import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -18,13 +22,17 @@ public class UserServiceImpl implements UserService {
     //declare the repositories to call methods that execute certain queries
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final ProjectService projectService;
+    private final TaskService taskService;
 
 
 
     //injection through constructor
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     //this method is need to display all the users on the UI table
@@ -76,12 +84,45 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteByUserName(username);
     }
 
+    /**
+     * This method deletes a user
+     * If an assigned employee is deleted, the assigned tasks
+     * do not show up in the Pending Tasks (UI), but they
+     * show up in the database, so a manager should not be
+     * able to delete an assigned employee.
+     * @param username String
+     */
     @Override
     public void delete(String username) {
         //don't want to delete from the database, only change the flag in the db
         User user = userRepository.findByUserName(username);
-        user.setIsDeleted(true);//the flag is concatenated
-        userRepository.save(user);
+        if(canUserBeDeleted(user)) {//1st checking if a manager can delete an assigned user or not
+            user.setIsDeleted(true);//the flag is concatenated
+            userRepository.save(user);
+        }
+        //if a user cannot be deleted, throws an exception
+    }
+
+    /**
+     * A helper method for the above delete() method,
+     * it checks if an employee can be deleted or not.
+     * The purpose is a manager should not be able to delete
+     * an assigned employee
+     */
+    private boolean canUserBeDeleted(User user) {
+        switch (user.getRole().getDescription()) {
+            case "Manager":
+                //get all projects of the manager
+                List<ProjectDTO> projectDTOList = projectService.listAllByAssignedManager(user);
+                //if the manager has no project assigned, can delete an assigned employee
+                return projectDTOList.size() == 0;
+            case "Employee":
+                //get all tasks assigned to an employee
+                List<TaskDTO> taskDTOList = taskService.listAllTasksByAssignedEmployee(user);
+                return taskDTOList.size() == 0;
+            default:
+                return true;
+        }
     }
 
     @Override
