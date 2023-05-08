@@ -1,8 +1,10 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.entity.Task;
 import com.cydeo.enums.Status;
+import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.TaskMapper;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.TaskService;
@@ -19,11 +21,14 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final ProjectMapper projectMapper;
 
 
-    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper) {
+    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper,
+                           ProjectMapper projectMapper) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
+        this.projectMapper = projectMapper;
     }
 
     /**
@@ -68,7 +73,6 @@ public class TaskServiceImpl implements TaskService {
      * (private Long id), otherwise it will not save a task
      * with unmatched task or project
      * JpaRepository provides save() method or can create it in the services.
-     *
      * @param dto TaskDTO
      */
     @Override
@@ -80,7 +84,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * This make update a task in the db
+     * This make update a task in the db. Since there is no status in the form
+     * assign it to a new status. The task may get a status from somewhere
+     * therefore check it if is null or not before you assign it.
      * First you need to convert the updated data into entity object
      * Second store in the db through the repository
      * Need to capture the status and the date and set or assign the updated task
@@ -92,7 +98,8 @@ public class TaskServiceImpl implements TaskService {
         Task convertedTask = taskMapper.convertToEntity(dto);
         if(task.isPresent()) {
             convertedTask.setId(task.get().getId());//to avoid duplicated record
-            convertedTask.setTaskStatus(task.get().getTaskStatus());//assign the status
+            //there is no status inside the form so assign the status, if it is null(may get it from somewhere)
+            convertedTask.setTaskStatus(dto.getTaskStatus() == null ? task.get().getTaskStatus() : dto.getTaskStatus());
             convertedTask.setAssignedDate(task.get().getAssignedDate());//assign the date
             taskRepository.save(convertedTask);//save the updated task
         }
@@ -122,5 +129,42 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int totalCompletedTasks(String projectCode) {
         return taskRepository.totalCompletedTasks(projectCode);
+    }
+
+    /**
+     * This method is used to delete related tasks after a project is
+     * marked deleted.
+     * @param project ProjectDTO
+     */
+    @Override
+    public void deleteByProject(ProjectDTO project) {
+      List<TaskDTO> taskList = listAllProjects(project);
+      taskList.forEach(p -> delete(p.getId()));
+    }
+
+    /**
+     * This project marks if all assigned tasks are completed or not
+     * @param project ProjectDTO
+     */
+    @Override
+    public void completeByProject(ProjectDTO project) {
+        //get all the lists
+        List<TaskDTO> taskList = listAllProjects(project);
+        //get all the tasks and set them to complete, then save the change in the db
+        taskList.forEach(p -> {
+            p.setTaskStatus(Status.COMPLETE);
+            update(p);
+        });
+    }
+
+     /**
+     * This is a helper method for the above deleteByProject()
+      * and completeByProject() methods
+     * @param project ProjectDTO
+     * @return list of tasks converted to DTOs
+     */
+    private List<TaskDTO> listAllProjects(ProjectDTO project) {
+        List<Task> taskList = taskRepository.findAllByProject(projectMapper.convertToEntity(project));
+        return taskList.stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
     }
 }

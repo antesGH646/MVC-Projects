@@ -104,6 +104,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * This method soft deletes a user by passing the user's code. How?
+     * The actual data is not deleted from the database, it is marked
+     * deleted(soft deleted), however a user must be able to create another project
+     * with the same project code. Employees would still be able to see the tasks
+     * related with soft deleted project. The related tasks has to be deleted too.
      * First get the project from the database
      * Second Instead of hard deleting set it is deleted is true for soft deleting
      * Third save the update or the soft deleting
@@ -112,12 +116,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void delete(String code) {
         Project project = projectRepository.findByProjectCode(code);
-        project.setIsDeleted(true);
+        project.setIsDeleted(true);//marked deleted = soft delete
+        //can use the project code to create a new one with that code
+        project.setProjectCode(project.getProjectCode() + "-" + project.getId());
         projectRepository.save(project);
+        //delete related tasks after a project is soft deleted
+        taskService.deleteByProject(projectMapper.convertToDTO(project));
     }
 
     /**
      * This method displays if a project is not completed or not
+     * The manager should not be able to mark Completed on a project
+     * if all the assigned tasks are not finished or completed
      * First find the status of the project
      * Second display if completed or not
      * @param projectCode String
@@ -127,6 +137,8 @@ public class ProjectServiceImpl implements ProjectService {
     Project project = projectRepository.findByProjectCode(projectCode);
     project.setProjectStatus(Status.COMPLETE);
     projectRepository.save(project);
+
+    taskService.completeByProject(projectMapper.convertToDTO(project));
     }
 
     /**
