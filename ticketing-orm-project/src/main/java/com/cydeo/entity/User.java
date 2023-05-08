@@ -19,7 +19,10 @@ public class User extends BaseEntity {
 
     private String firstName;
     private String lastName;
+
+    //to avoid duplicated username, and should not be null
     @Column(unique = true, nullable = false)
+
     private String userName;
     private String passWord;
     private boolean enabled;

@@ -98,6 +98,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserName(username);
         if(canUserBeDeleted(user)) {//1st checking if a manager can delete an assigned user or not
             user.setIsDeleted(true);//the flag is concatenated
+            //enabling to create with the deleted username, b/c username is changed
+            user.setUserName(user.getUserName() + "-" + user.getId());
             userRepository.save(user);
         }
         //if a user cannot be deleted, throws an exception
