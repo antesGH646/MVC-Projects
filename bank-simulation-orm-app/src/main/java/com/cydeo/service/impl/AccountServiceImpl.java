@@ -8,6 +8,7 @@ import com.cydeo.repository.AccountRepository;
 import com.cydeo.service.AccountService;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,7 +35,9 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public void createNewAccount(AccountDTO accountDTO) {
-
+        accountDTO.setAccountStatus(AccountStatus.ACTIVE);
+        accountDTO.setCreationDate(new Date());
+        accountRepository.save(accountMapper.convertToEntity(accountDTO));
     }
 
     /**
@@ -61,7 +64,6 @@ public class AccountServiceImpl implements AccountService {
     public void activateAccount(Long id) {
         //find the account object based on id
         Optional<Account> account = accountRepository.findById(id);
-
         //update the accountStatus of that object.
         accountMapper.convertToDTO(account.get()).setAccountStatus(AccountStatus.ACTIVE);
 
@@ -74,8 +76,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO retrieveById(Long id) {
-
         return accountMapper.convertToDTO(accountRepository.findById(id).get());
     }
-
 }
