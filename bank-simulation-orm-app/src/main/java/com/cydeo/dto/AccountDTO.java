@@ -2,14 +2,13 @@ package com.cydeo.dto;
 
 import com.cydeo.enums.AccountStatus;
 import com.cydeo.enums.AccountType;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * The common practice is to define the business logic attributes
@@ -17,10 +16,12 @@ import java.util.UUID;
  * to handle the amount, handle the receiver and sender, mark the date,
  * and send an informative message
  */
-@Data
-@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountDTO {
-    private UUID id; //Universal Unique Identifier
+    private Long id; //Universal Unique Identifier
     @NotNull
     @Positive
     private BigDecimal balance; //handles big decimals and is more precise

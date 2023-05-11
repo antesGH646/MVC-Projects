@@ -1,6 +1,6 @@
 package com.cydeo.repository;
 
-import com.cydeo.dto.Transaction;
+import com.cydeo.dto.TransactionDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,24 +13,24 @@ import java.util.stream.Collectors;
 public class TransactionRepository{
 
     //stores list of transactions
-    public static List<Transaction> transactionList = new ArrayList<>();
+    public static List<TransactionDTO> transactionDTOList = new ArrayList<>();
 
     /**
      * Adds a transaction into the list and returns it
-     * @param transaction AccountType
+     * @param transactionDTO AccountType
      * @return the list of AccountType
      */
-    public Transaction addTransaction(Transaction transaction){
-        transactionList.add(transaction);//adds the transaction into a list
-        return transaction; //returns an individual transaction
+    public TransactionDTO addTransaction(TransactionDTO transactionDTO){
+        transactionDTOList.add(transactionDTO);//adds the transaction into a list
+        return transactionDTO; //returns an individual transaction
     }
 
     /**
      * finds individual transactions
      * @return a list of transactions
      */
-    public List<Transaction> findAllTransactions() {
-        return transactionList;//returns the above list of transactions
+    public List<TransactionDTO> findAllTransactions() {
+        return transactionDTOList;//returns the above list of transactions
     }
 
     /**
@@ -38,9 +38,9 @@ public class TransactionRepository{
      * based on the creation date
      * @return a list of last 10 transactions
      */
-    public List<Transaction> findLast10Transactions() {
-        return transactionList.stream()
-                .sorted(Comparator.comparing(Transaction::getCreationDate).reversed())
+    public List<TransactionDTO> findLast10Transactions() {
+        return transactionDTOList.stream()
+                .sorted(Comparator.comparing(TransactionDTO::getCreationDate).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
     }
@@ -51,10 +51,10 @@ public class TransactionRepository{
      * @param id UUID
      * @return list of transactions
      */
-    public List<Transaction> findTransactionListById(UUID id) {
-        return transactionList.stream()
-                .filter(transaction -> transaction.getSender().equals(id)
-                        || transaction.getReceiver().equals(id))
+    public List<TransactionDTO> findTransactionListById(UUID id) {
+        return transactionDTOList.stream()
+                .filter(transactionDTO -> transactionDTO.getSender().equals(id)
+                        || transactionDTO.getReceiver().equals(id))
                 .collect(Collectors.toList());
     }
 }

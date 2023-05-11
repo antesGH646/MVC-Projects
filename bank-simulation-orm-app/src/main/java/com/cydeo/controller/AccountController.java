@@ -35,7 +35,7 @@ public class AccountController {
     @GetMapping("/create-account")
     public String addNewUserForm(Model model){
         //want to display data from Account object into the UI
-        model.addAttribute("account", AccountDTO.builder().build());
+        model.addAttribute("account", new AccountDTO());
         //want to display a list of the account types from enum into the Account Type dropdown
         model.addAttribute("accountTypes", AccountType.values());
         return "account/create-account";
@@ -81,7 +81,7 @@ public class AccountController {
      * @return return the index html displaying the status to deleted or activated
      */
     @GetMapping("/delete/{id}")
-        public String deleteAccount(@PathVariable("id") UUID id) {
+        public String deleteAccount(@PathVariable("id") Long id) {
         System.out.println(id);
         //trigger deleteAccount method, captures whatever id the user is entering in the UI
         accountService.deleteAccount(id);
@@ -89,7 +89,7 @@ public class AccountController {
     }
 
     @GetMapping("/activate/{id}")
-    public String activateAccount(@PathVariable("id") UUID id) {
+    public String activateAccount(@PathVariable("id") Long id) {
         System.out.println(id);
         //trigger deleteAccount method,
         accountService.activateAccount(id);

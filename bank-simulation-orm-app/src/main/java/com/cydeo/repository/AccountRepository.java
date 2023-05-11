@@ -38,7 +38,7 @@ public class AccountRepository {
      * @param id account id
      * @return matching id
      */
-    public AccountDTO findAccountById(UUID id) {
+    public AccountDTO findAccountById(Long id) {
         //finds an account from the list of accounts by id, otherwise throws exception if it does not exist
         return accountList.stream().filter(account -> account.getId().equals(id))
                 .findAny()

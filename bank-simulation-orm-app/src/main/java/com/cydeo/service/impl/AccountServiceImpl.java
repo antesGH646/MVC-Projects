@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
      * @param id UUID
      */
     @Override
-    public void deleteAccount(UUID id) {
+    public void deleteAccount(Long id) {
         //find the account object based on id
         AccountDTO account = accountRepository.findAccountById(id);
         //update the accountStatus of that object.
@@ -74,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
      * @param id UUID
      */
     @Override
-    public void activateAccount(UUID id) {
+    public void activateAccount(Long id) {
         //find the account object based on id
         AccountDTO account = accountRepository.findAccountById(id);
         //update the accountStatus of that object.
@@ -87,7 +87,7 @@ public class AccountServiceImpl implements AccountService {
      * @return returns an Account by its id
      */
     @Override
-    public AccountDTO retrieveAccountById(UUID id) {
+    public AccountDTO retrieveAccountById(Long id) {
         return accountRepository.findAccountById(id);
     }
 }

@@ -1,7 +1,6 @@
 package com.cydeo.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -9,7 +8,6 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * The common practice is to define the business logic attributes
@@ -17,14 +15,16 @@ import java.util.UUID;
  * to handle the amount, handle the receiver and sender, mark the date,
  * and send an informative message
  */
-@Data
-@Builder
-public class Transaction {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransactionDTO {
     //declare fields/attributes
     @NotNull
-    private UUID receiver;//to uniquely identify a receiver
+    private AccountDTO receiver;//to uniquely identify a receiver
     @NotNull
-    private UUID sender;//to uniquely identify a sender
+    private AccountDTO sender;//to uniquely identify a sender
     @NotNull
     @Positive
     private BigDecimal amount;//to store the amount sent or received

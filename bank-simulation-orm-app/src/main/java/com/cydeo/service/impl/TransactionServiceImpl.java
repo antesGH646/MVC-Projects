@@ -1,12 +1,12 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.TransactionDTO;
 import com.cydeo.enums.AccountType;
 import com.cydeo.exception.AccountOwnershipException;
 import com.cydeo.exception.BadRequestException;
 import com.cydeo.exception.BalanceNotSufficientException;
 import com.cydeo.exception.UnderConstructionException;
 import com.cydeo.dto.AccountDTO;
-import com.cydeo.dto.Transaction;
 import com.cydeo.repository.AccountRepository;
 import com.cydeo.repository.TransactionRepository;
 import com.cydeo.service.TransactionService;
@@ -53,8 +53,8 @@ public class TransactionServiceImpl implements TransactionService {
      * @return a transaction
      */
     @Override
-    public Transaction makeTransfer(AccountDTO sender, AccountDTO receiver, BigDecimal amount,
-                                    Date creationDate, String message) {
+    public TransactionDTO makeTransfer(AccountDTO sender, AccountDTO receiver, BigDecimal amount,
+                                       Date creationDate, String message) {
 
         if (!underConstruction) {//if under construction is not false (true) jumps to the else block
             validateAccount(sender, receiver);
@@ -63,10 +63,10 @@ public class TransactionServiceImpl implements TransactionService {
             executeBalanceAndUpdateIfRequired(amount, sender, receiver);
 
             //After the transaction and money transfer is completed, create transaction object save/return it
-            Transaction transaction = Transaction.builder().amount(amount).sender(sender.getId())
+            TransactionDTO transactionDTO = TransactionDTO.builder().amount(amount).sender(sender.getId())
                     .receiver(receiver.getId()).creationDate(creationDate).message(message).build();
 
-            return transactionRepository.addTransaction(transaction);
+            return transactionRepository.addTransaction(transactionDTO);
 
         } else {//if under construction is true stops the execution (throws exception)
             throw new UnderConstructionException("App is under construction,try again later.");
@@ -149,7 +149,7 @@ public class TransactionServiceImpl implements TransactionService {
      * Finds an account by its id
      * @param id UUID
      */
-    private void findAccountById(UUID id) {
+    private void findAccountById(Long id) {
         accountRepository.findAccountById(id);
     }
 
@@ -158,18 +158,18 @@ public class TransactionServiceImpl implements TransactionService {
      * @return list of transactions
      */
     @Override
-    public List<Transaction> findAllTransaction() {
+    public List<TransactionDTO> findAllTransaction() {
         return transactionRepository.findAllTransactions();
     }
 
     @Override
-    public List<Transaction> last10Transactions() {
+    public List<TransactionDTO> last10Transactions() {
         //we want last 10 latest transaction
         return transactionRepository.findLast10Transactions();
     }
 
     @Override
-    public List<Transaction> findTransactionListByID(UUID id) {
+    public List<TransactionDTO> findTransactionListByID(UUID id) {
         return transactionRepository.findTransactionListById(id);
     }
 }
