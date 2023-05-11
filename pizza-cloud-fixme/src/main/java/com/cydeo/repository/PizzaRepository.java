@@ -9,7 +9,7 @@ import java.util.List;
 @Component //5th error: @Component should be added to inject it when the methods are needed/called
 public class PizzaRepository {
 
-    private static List<Pizza> pizzaList = new ArrayList<>();
+    private static final List<Pizza> pizzaList = new ArrayList<>();
 
     public Pizza createPizza(Pizza pizzaToSave) {
         pizzaList.add(pizzaToSave);

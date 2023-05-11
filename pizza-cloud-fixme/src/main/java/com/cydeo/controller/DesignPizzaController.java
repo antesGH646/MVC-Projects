@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/design") //4th error, design endpoint added to display Design your pizza! view
 public class DesignPizzaController {
 
-    private PizzaRepository pizzaRepository;
+    private final PizzaRepository pizzaRepository;
 
     //5th error, a constructor should be added to inject it by constructor,
     // then @Component should be added on the PizzaRepository
