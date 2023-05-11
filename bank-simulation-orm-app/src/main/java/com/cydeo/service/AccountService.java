@@ -6,7 +6,6 @@ import com.cydeo.dto.AccountDTO;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * The business logic is to create an account and store the list of created accounts.
