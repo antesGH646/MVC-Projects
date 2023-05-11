@@ -29,10 +29,10 @@ public interface AccountService {
     List<AccountDTO> listAllAccounts();
 
     //business logic to delete an account
-    void deleteAccount(UUID id);
+    void deleteAccount(Long id);
 
     //business logic to activate an account
-    void activateAccount(UUID id);
+    void activateAccount(Long id);
 
-    AccountDTO retrieveAccountById(UUID id);
+    AccountDTO retrieveAccountById(Long id);
 }
