@@ -66,7 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
             TransactionDTO transactionDTO = TransactionDTO.builder().amount(amount).sender(sender.getId())
                     .receiver(receiver.getId()).creationDate(creationDate).message(message).build();
 
-            return transactionRepository.addTransaction(transactionDTO);
+            return transactionRepository.save(transactionDTO);
 
         } else {//if under construction is true stops the execution (throws exception)
             throw new UnderConstructionException("App is under construction,try again later.");
