@@ -51,11 +51,11 @@ public class AccountController {
      * model.addAttribute("accountList", accountService.listAllAccount())
      * @Valid annotation should before the model Java object you need to validate, not before or after
      * the BindingResult object
-     * @param account Account
+     * @param accountDTO Account
      * @return the index html file to display a table filled out with data from the add new user form.
      */
     @PostMapping("/create") //create method to capture information from UI
-    public String createAccount(@ModelAttribute("account") @Valid AccountDTO account,
+    public String createAccount(@ModelAttribute("account") @Valid AccountDTO accountDTO,
                                 BindingResult bindingResult, Model model) {
 
         if(bindingResult.hasErrors()) {
@@ -63,11 +63,10 @@ public class AccountController {
             return "account/create-account"; //return it to the same page until the user input is right
         }
 
-        System.out.println(account);//print them on the console.
+        System.out.println(accountDTO);//print them on the console.
         //trigger createAccount method, creates the account based on user input,
         // will store whatever the user is entering.
-        accountService.createNewAccount(account.getBalance(),
-                account.getCreationDate(),account.getAccountType(), account.getUserId());
+        accountService.createNewAccount(accountDTO);
         return "redirect:/index";
     }
 

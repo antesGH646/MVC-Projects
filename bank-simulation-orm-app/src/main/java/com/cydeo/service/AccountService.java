@@ -21,8 +21,7 @@ import java.util.List;
 public interface AccountService {
 
     //business logic creating a new account
-    AccountDTO createNewAccount(BigDecimal balance, Date creationDate,
-                                AccountType accountType, Long userId);
+    void createNewAccount(AccountDTO accountDTO);
 
     //business logic storing list of accounts,
     List<AccountDTO> listAllAccounts();
@@ -34,4 +33,6 @@ public interface AccountService {
     void activateAccount(Long id);
 
     AccountDTO retrieveAccountById(Long id);
+
+    AccountDTO retrieveById(Long id);
 }

@@ -2,16 +2,14 @@ package com.cydeo.service.impl;
 
 import com.cydeo.entity.Account;
 import com.cydeo.enums.AccountStatus;
-import com.cydeo.enums.AccountType;
 import com.cydeo.dto.AccountDTO;
 import com.cydeo.mapper.AccountMapper;
 import com.cydeo.repository.AccountRepository;
 import com.cydeo.service.AccountService;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,18 +30,11 @@ public class AccountServiceImpl implements AccountService {
     /**
      * This method creates account, stores the accounts into the database,
      * and return the created object
-     * @param balance BigDecimal
-     * @param creationDate Date
-     * @param accountType AccountType
-     * @param userId id
      * @return added account
      */
     @Override
-    public AccountDTO createNewAccount(BigDecimal balance, Date creationDate,
-                                       AccountType accountType, Long userId) {
-       //create an account object
-        AccountDTO accountDTO = new AccountDTO();
-        return accountRepository.save(accountDTO);
+    public void createNewAccount(AccountDTO accountDTO) {
+
     }
 
     /**
@@ -59,34 +50,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDTO> listAllAccount() {
-
-        /*
-            we are getting list of account from repo(database
-            but we need to return list of AccountDTO to controller
-            what we need to do is we will convert Accounts to AccountsDTO
-         */
-
-        List<Account> accountList = accountRepository.findAll();
-        //we are converting list of account to accountDTOs and returning it.
-        return accountList.stream().map(accountMapper::convertToDTO).collect(Collectors.toList());
-    }
-
-    @Override
     public void deleteAccount(Long id) {
         //find the account object based on id
-        AccountDTO accountDTO = accountRepository.findById(id);
+        Optional<Account> account = accountRepository.findById(id);
         //update the accountStatus of that object.
-        accountDTO.setAccountStatus(AccountStatus.DELETED);
+        accountMapper.convertToDTO(account.get()).setAccountStatus(AccountStatus.DELETED);
     }
 
     @Override
     public void activateAccount(Long id) {
         //find the account object based on id
-        AccountDTO accountDTO = accountRepository.findById(id);
+        Optional<Account> account = accountRepository.findById(id);
 
         //update the accountStatus of that object.
-        accountDTO.setAccountStatus(AccountStatus.ACTIVE);
+        accountMapper.convertToDTO(account.get()).setAccountStatus(AccountStatus.ACTIVE);
 
     }
 
@@ -98,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTO retrieveById(Long id) {
 
-        return accountRepository.findById(id);
+        return accountMapper.convertToDTO(accountRepository.findById(id).get());
     }
-    }
+
 }
