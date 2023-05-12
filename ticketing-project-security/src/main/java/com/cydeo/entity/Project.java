@@ -1,6 +1,5 @@
 package com.cydeo.entity;
 
-
 import com.cydeo.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,27 +15,25 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Where(clause = "is_deleted=false")
-public class Project extends BaseEntity {
+public class Project extends BaseEntity{
 
-    @Column(unique = true)
+    @Column(unique = true)//to avoid project code duplication
     private String projectCode;
-
+    @Column(unique = true)//to prevent project name duplication
     private String projectName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    
+    @ManyToOne(fetch = FetchType.LAZY)//one manager can be assigned to many projects
     @JoinColumn(name = "manager_id")
     private User assignedManager;
 
-    @Column(columnDefinition = "DATE")
+    @Column(columnDefinition = "Date")
     private LocalDate startDate;
 
-    @Column(columnDefinition = "DATE")
+    @Column(columnDefinition = "Date")
     private LocalDate endDate;
 
     private String projectDetail;
 
     @Enumerated(EnumType.STRING)
     private Status projectStatus;
-
-
 }

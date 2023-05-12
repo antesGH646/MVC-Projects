@@ -5,25 +5,21 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 
+/**
+ * This is a generic method for all mappers
+ * To inject something two beans are needed and must add
+ * the @Component annotation
+ */
 @Component
 public class MapperUtil {
-
     private final ModelMapper modelMapper;
 
     public MapperUtil(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
-    public <T> T convert(Object objectToBeConverted, T convertedObject) {
-        return modelMapper.map(objectToBeConverted, (Type) convertedObject.getClass());
+    //generic convert mapper
+    public <T> T convert(Object objToBeConverted, T convertedObj) {
+        return modelMapper.map(objToBeConverted, (Type) convertedObj.getClass());
     }
-
-//    public <T> T convertToEntity(Object objectToBeConverted, T convertedObject) {
-//        return modelMapper.map(objectToBeConverted, (Type) convertedObject.getClass());
-//    }
-//
-//    public <T> T convertToDTO(Object objectToBeConverted, T convertedObject) {
-//        return modelMapper.map(objectToBeConverted, (Type) convertedObject.getClass());
-//    }
-
 }

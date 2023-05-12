@@ -9,24 +9,23 @@ import java.util.List;
 
 public interface TaskService {
 
-    TaskDTO findById(Long id);
-    List<TaskDTO> listAllTasks();
+    TaskDTO findById(Long id); //to find a task by id
+    List<TaskDTO> findAllTasks();
     void save(TaskDTO dto);
     void update(TaskDTO dto);
     void delete(Long id);
-    int totalNonCompletedTask(String projectCode);
-    int totalCompletedTask(String projectCode);
+    int totalUncompletedTasks(String projectCode);
+    int totalCompletedTasks(String projectCode);
 
-    void deleteByProject(ProjectDTO project);
+    void deleteByProject(ProjectDTO convertToDTO);
 
-    void completeByProject(ProjectDTO project);
+    void completeByProject(ProjectDTO convertToDTO);
 
-    List<TaskDTO> listAllTasksByStatusIsNot(Status status);
+    List<TaskDTO> listAllTasksByStatusIsNot(Status complete);
+
+    List<TaskDTO> listAllTasksByStatus(Status complete);
 
     void updateStatus(TaskDTO task);
 
-    List<TaskDTO> listAllTasksByStatus(Status status);
-
-    List<TaskDTO> readAllByAssignedEmployee(User assignedEmployee);
-
+    List<TaskDTO> listAllTasksByAssignedEmployee(User assignedEmployee);
 }

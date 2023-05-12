@@ -11,19 +11,20 @@ import javax.validation.constraints.*;
 
 public class UserDTO {
 
-    private Long id;
+    private Long id;//to transfer the id for the assigned user
+
+    //getter for the id
+    public Long getId() {
+        return id;
+    }
+    //setter for the id
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @NotBlank
     @Size(max = 15, min = 2)
     private String firstName;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @NotBlank
     @Size(max = 15, min = 2)
@@ -47,7 +48,7 @@ public class UserDTO {
     private String phone;
 
     @NotNull
-    private RoleDTO role;
+    private RoleDTO role; //UserDTO has RoleDTO object dependency
 
     @NotNull
     private Gender gender;
@@ -72,7 +73,6 @@ public class UserDTO {
 
     private void checkConfirmPassWord() {
         if(this.passWord == null || this.confirmPassWord == null){
-            return;
         }else if(!this.passWord.equals(confirmPassWord)){
             this.confirmPassWord = null;
         }
@@ -135,5 +135,3 @@ public class UserDTO {
     }
 
 }
-
-

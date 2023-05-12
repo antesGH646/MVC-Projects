@@ -28,30 +28,23 @@ public class TaskController {
 
     @GetMapping("/create")
     public String createTask(Model model) {
-
         model.addAttribute("task", new TaskDTO());
         model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("employees", userService.listAllByRole("employee"));
-        model.addAttribute("tasks", taskService.listAllTasks());
-
+        model.addAttribute("tasks", taskService.findAllTasks());
         return "task/create";
     }
 
     @PostMapping("/create")
-    public String insertTask(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
-
+    public String insertTask(@Valid @ModelAttribute("task") TaskDTO task,
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("projects", projectService.listAllProjects());
             model.addAttribute("employees", userService.listAllByRole("employee"));
-            model.addAttribute("tasks", taskService.listAllTasks());
-
+            model.addAttribute("tasks", taskService.findAllTasks());
             return "/task/create";
-
         }
-
         taskService.save(task);
-
         return "redirect:/task/create";
     }
 
@@ -63,36 +56,23 @@ public class TaskController {
 
     @GetMapping("/update/{taskId}")
     public String editTask(@PathVariable("taskId") Long taskId, Model model) {
-
         model.addAttribute("task", taskService.findById(taskId));
         model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("employees", userService.listAllByRole("employee"));
-        model.addAttribute("tasks", taskService.listAllTasks());
-
+        model.addAttribute("tasks", taskService.findAllTasks());
         return "task/update";
-
     }
 
-//    @PostMapping("/update/{taskId}")
-//    public String updateTask(@PathVariable("taskId") Long taskId, TaskDTO task) {
-//        task.setId(taskId);
-//        taskService.update(task);
-//        return "redirect:/task/create";
-//    }
-//
     @PostMapping("/update/{id}")
-    public String updateTask(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
+    public String updateTask(@ModelAttribute("task") TaskDTO task,
+                             BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("projects", projectService.listAllProjects());
             model.addAttribute("employees", userService.listAllByRole("employee"));
-            model.addAttribute("tasks", taskService.listAllTasks());
-
+            model.addAttribute("tasks", taskService.findAllTasks());
             return "/task/update";
-
         }
-
         taskService.update(task);
         return "redirect:/task/create";
     }
@@ -125,10 +105,8 @@ public class TaskController {
             return "/task/status-update";
 
         }
-
         taskService.updateStatus(task);
         return "redirect:/task/employee/pending-tasks";
-
     }
 
     @GetMapping("/employee/archive")
@@ -136,5 +114,4 @@ public class TaskController {
         model.addAttribute("tasks", taskService.listAllTasksByStatus(Status.COMPLETE));
         return "task/archive";
     }
-
 }

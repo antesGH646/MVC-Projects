@@ -36,8 +36,8 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="projectname" class="col-form-label">Project Name</label>
-                                                    <input id="projectname" th:field="*{projectName}" type="text"
+                                                    <label for="project_name" class="col-form-label">Project Name</label>
+                                                    <input id="project_name" th:field="*{projectName}" type="text"
                                                            class="form-control" placeholder="project name">
                                                     <div class="invalid-feedback"
                                                          th:if="${#fields.hasErrors('projectName')}">
@@ -52,8 +52,8 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="projectcode" class="col-form-label">Project Code</label>
-                                                    <input id="projectcode" th:field="*{projectCode}" type="text"
+                                                    <label for="project_code" class="col-form-label">Project Code</label>
+                                                    <input id="project_code" th:field="*{projectCode}" type="text"
                                                            class="form-control" placeholder="project code" readonly>
                                                     <div class="invalid-feedback"
                                                          th:if="${#fields.hasErrors('projectCode')}">
@@ -88,8 +88,8 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="startdate">Project Start Date</label>
-                                                    <input id="startdate" th:field="*{startDate}" type="date"
+                                                    <label for="start_date">Project Start Date</label>
+                                                    <input id="start_date" th:field="*{startDate}" type="date"
                                                            class="form-control">
                                                     <div class="invalid-feedback"
                                                          th:if="${#fields.hasErrors('startDate')}">
@@ -102,8 +102,8 @@
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="enddate">Project End Date</label>
-                                                    <input id="enddate" th:field="*{endDate}" type="date"
+                                                    <label for="end_date">Project End Date</label>
+                                                    <input id="end_date" th:field="*{endDate}" type="date"
                                                            class="form-control">
                                                     <div class="invalid-feedback"
                                                          th:if="${#fields.hasErrors('endDate')}">
@@ -118,8 +118,8 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="projectdetail">Project Detail</label>
-                                                    <textarea id="projectdetail" th:field="*{projectDetail}"
+                                                    <label for="project_detail">Project Detail</label>
+                                                    <textarea id="project_detail" th:field="*{projectDetail}"
                                                               class="form-control"
                                                               placeholder="project detail"></textarea>
                                                     <div class="invalid-feedback"
@@ -184,9 +184,14 @@
                                                 <td th:text="${project.assignedManager.firstName + ' ' + project.assignedManager.lastName}"></td>
                                                 <td th:text="${project.projectStatus.value}"></td>
                                                 <td>
+<!--                                                    <a href="#">-->
+<!--                                                        <button type="button" class="btn btn-warning rounded-0">Update-->
+<!--                                                        </button>-->
+<!--                                                    </a>-->
+                                                    <!--if tasks are complete, Update button should be disabled, if complete task count does not matter-->
                                                     <a th:if="${project.projectStatus.value != 'Completed'}"
                                                        class="btn btn-warning rounded-0"
-                                                       th:href="@{/project/complete/{id}(id=${project.getProjectCode()})}">Update
+                                                       th:href="@{/project/update/{id}(id=${project.getProjectCode()})}">Update
                                                     </a>
                                                     <a th:if="${project.projectStatus.value == 'Completed'}"
                                                        class="btn btn-warning rounded-0 disabled-button">Update
@@ -195,6 +200,11 @@
                                                         <button type="button" class="btn btn-danger rounded-0">Delete
                                                         </button>
                                                     </a>
+<!--                                                    <a th:href="@{/project/complete/{id}(id=${project.getProjectCode()})}">-->
+<!--                                                        <button type="button" class="btn btn-info rounded-0">Complete-->
+<!--                                                        </button>-->
+<!--                                                    </a>-->
+                                                    <!--if tasks are not complete, Complete button should be disabled-->
                                                     <a th:if="${project.unfinishedTaskCounts == 0 && project.projectStatus.value != 'Completed'}"
                                                        class="btn btn-info rounded-0"
                                                        th:href="@{/project/complete/{id}(id=${project.getProjectCode()})}">Complete

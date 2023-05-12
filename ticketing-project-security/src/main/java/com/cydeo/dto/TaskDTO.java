@@ -30,7 +30,9 @@ public class TaskDTO {
     private Status taskStatus;
     private LocalDate assignedDate;
 
-    public TaskDTO(ProjectDTO project, UserDTO assignedEmployee, String taskSubject, String taskDetail, Status taskStatus, LocalDate assignedDate) {
+    public TaskDTO(ProjectDTO project, UserDTO assignedEmployee,
+                   String taskSubject, String taskDetail,
+                   Status taskStatus, LocalDate assignedDate) {
         this.project = project;
         this.assignedEmployee = assignedEmployee;
         this.taskSubject = taskSubject;

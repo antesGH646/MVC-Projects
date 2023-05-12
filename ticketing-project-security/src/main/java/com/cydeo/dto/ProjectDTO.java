@@ -1,13 +1,14 @@
 package com.cydeo.dto;
 
 import com.cydeo.enums.Status;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -16,7 +17,6 @@ import java.time.LocalDate;
 public class ProjectDTO {
 
     private Long id;
-
     @NotBlank
     private String projectName;
 
@@ -42,7 +42,9 @@ public class ProjectDTO {
     private int completeTaskCounts;
     private int unfinishedTaskCounts;
 
-    public ProjectDTO(String projectName, String projectCode, UserDTO assignedManager, LocalDate startDate, LocalDate endDate, String projectDetail, Status projectStatus) {
+    public ProjectDTO(String projectName, String projectCode, UserDTO assignedManager,
+                      LocalDate startDate, LocalDate endDate, String projectDetail,
+                      Status projectStatus) {
         this.projectName = projectName;
         this.projectCode = projectCode;
         this.assignedManager = assignedManager;
@@ -51,5 +53,4 @@ public class ProjectDTO {
         this.projectDetail = projectDetail;
         this.projectStatus = projectStatus;
     }
-
 }

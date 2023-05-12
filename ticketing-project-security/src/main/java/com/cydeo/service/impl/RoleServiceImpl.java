@@ -1,7 +1,6 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.RoleDTO;
-import com.cydeo.entity.Role;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.mapper.RoleMapper;
 import com.cydeo.repository.RoleRepository;
@@ -14,6 +13,7 @@ import java.util.stream.Collectors;
 @Service
 public class RoleServiceImpl implements RoleService {
 
+    //declare the repositories to call methods that execute certain queries
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
     private final MapperUtil mapperUtil;
@@ -24,15 +24,28 @@ public class RoleServiceImpl implements RoleService {
         this.mapperUtil = mapperUtil;
     }
 
+
     @Override
     public List<RoleDTO> listAllRoles() {
-//        return roleRepository.findAll().stream().map(roleMapper::convertToDto).collect(Collectors.toList());
-        return roleRepository.findAll().stream().map(role -> mapperUtil.convert(role, new RoleDTO())).collect(Collectors.toList());
+        /*
+        //fetch all the roles and return them
+        List<Role>  roleList = roleRepository.findAll();
+        //Controller requests RoleDTO object not list of roles or Role objects,
+       // roleList.stream().map(p->roleMapper.convertToDTO(p)).collect(Collectors.toList());
+        List<RoleDTO> roleDTOList = roleList.stream().map(roleMapper::convertToDTO).collect(Collectors.toList());
+        // therefore change the entity into dto using mappers or other ones
+        return roleDTOList;
+        */
+        ////////////////////to make it in one line
+       // return roleRepository.findAll().stream().map(roleMapper::convertToDTO).collect(Collectors.toList());
+        //use mapper util generic method
+        return roleRepository.findAll().stream().map(p -> mapperUtil.convert(p, new RoleDTO())).collect(Collectors.toList());
     }
 
     @Override
     public RoleDTO findById(Long id) {
-//        return roleMapper.convertToDto(roleRepository.findById(id).get());
+     //   return roleMapper.convertToDTO(roleRepository.findById(id).get());//returns optional
+        //use mapper util generic method
         return mapperUtil.convert(roleRepository.findById(id).get(), new RoleDTO());
     }
 }
