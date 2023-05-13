@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    //creating custom method
+    //fetching a user using derived query method
     User findByUserName(String username);
 
     /**

@@ -8,15 +8,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    /**
-     * The first login is comes from spring-boot not from this application
-     * This method overrides the authentication that comes from springboot
-     * Behind the since the user entry is encoded.
-     * This method do not validate with the database.
-     * Instead, it validates with what is in the memory
-     * @param passwordEncoder PasswordEncoder
-     * @return encoded password
-     */
+//    /**
+//     * The first login is comes from spring-boot not from your application
+//     * This method overrides the Spring boot authentication.
+//     * Behind the scene the user entry user details are encoded.
+//     * This method do not validate with the database.
+//     * Instead, it validates with what is in the memory
+//     * @param passwordEncoder PasswordEncoder
+//     * @return encoded password
+//     */
 //    @Bean
 //    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
 //        //manually creating a list of user details and adding users
@@ -28,15 +28,16 @@ public class SecurityConfig {
 //    }
 
     /**
-     * //This method overrides the spring-boot login pop up?//
-     * It filters to permit certain pages and authenticate the rest.
-     * The method also restricts user from accessing certain pages.
-     * The authentication might be basic or other type
-     * hasAuthority() has a prefix ROLE_ by default
-     * Since login is permitted to all, the spring boot login will no more pop up
-     * antMatchers() filters authorization based on end points
+     * This method modifies the security by specifying what types of roles can
+     * access what type of pages.
+     * It may filter to permit all roles to certain pages
+     * but authenticates or limits the access of the other pages.
+     * The authentication might be basic or other types.
+     * Note that: hasAuthority() has a prefix ROLE_ by default.
+     * If you permit the login page to all roles, the spring boot login will no more pop up.
+     * Not that: the antMatchers() is used to filter authorization based on end points
      * @param httpSecurity HttpSecurity
-     * @return
+     * @return httpSecurity
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
