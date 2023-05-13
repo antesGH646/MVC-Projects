@@ -11,6 +11,7 @@ import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,17 +26,23 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final PasswordEncoder passwordEncoder;
 
     /**
     * Injection through constructor, ProjectService and UserService beans
     * depend on each other, to solve this circular dependency
     * the @Lazy annotation is added. It means wait until I need it
     */
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, @Lazy ProjectService projectService, TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserMapper userMapper,
+                           @Lazy ProjectService projectService,
+                           TaskService taskService,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //this method is need to display all the users on the UI table
@@ -54,7 +61,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserDTO userDTO) {
-        userRepository.save(userMapper.convertToEntity(userDTO));
+        //UI password entry is not encoded
+       // userRepository.save(userMapper.convertToEntity(userDTO));
+        //encoding and saving a UI password entry
+       User user = userMapper.convertToEntity(userDTO);
+       user.setPassWord(passwordEncoder.encode(user.getPassWord()));
+       userRepository.save(user);
+
     }
 
     /**
