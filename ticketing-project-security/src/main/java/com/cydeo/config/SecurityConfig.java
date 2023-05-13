@@ -1,12 +1,19 @@
 package com.cydeo.config;
 
+import com.cydeo.service.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
+    private final SecurityService securityService;
+
+    public SecurityConfig(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 
 //    /**
 //     * The first login is comes from spring-boot not from your application
@@ -36,6 +43,7 @@ public class SecurityConfig {
      * Note that: hasAuthority() has a prefix ROLE_ by default.
      * If you permit the login page to all roles, the spring boot login will no more pop up.
      * Not that: the antMatchers() is used to filter authorization based on end points
+     *
      * @param httpSecurity HttpSecurity
      * @return httpSecurity
      */
@@ -60,11 +68,22 @@ public class SecurityConfig {
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
-              //  .httpBasic()
+                //  .httpBasic()
                 .formLogin().loginPage("/login")
-                .defaultSuccessUrl("/welcome")
-                .failureUrl("/login?error=true")
-                .permitAll()
+                     .defaultSuccessUrl("/welcome")
+                     .failureUrl("/login?error=true")
+                      .permitAll()
+                //activate logout feature & landing on the login page
+                .and()
+                .logout()
+                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                     .logoutSuccessUrl("/login")
+                //activating the Remember me button
+                .and()
+                .rememberMe()
+                     .tokenValiditySeconds(120)//for how long
+                     .key("cydeo")
+                     .userDetailsService(securityService)//which user
                 .and().build();
     }
 }
