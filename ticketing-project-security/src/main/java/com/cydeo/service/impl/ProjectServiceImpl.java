@@ -151,7 +151,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
         //hard coding the manager by passing the username
-        UserDTO currentUserDTO = userService.findByUserName("harold@manager.com");
+        UserDTO currentUserDTO = userService.findByUserName("james@gmail.com");
         //convert the captured user into entity
         User user = userMapper.convertToEntity(currentUserDTO);
         //putting the converted user into a list assigned to the manager

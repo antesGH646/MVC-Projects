@@ -63,7 +63,9 @@ public class UserServiceImpl implements UserService {
     public void save(UserDTO userDTO) {
         //UI password entry is not encoded
        // userRepository.save(userMapper.convertToEntity(userDTO));
+
         //encoding and saving a UI password entry
+       userDTO.setEnabled(true);//when creating a user from the UI form, this will enable authorization
        User user = userMapper.convertToEntity(userDTO);
        user.setPassWord(passwordEncoder.encode(user.getPassWord()));
        userRepository.save(user);

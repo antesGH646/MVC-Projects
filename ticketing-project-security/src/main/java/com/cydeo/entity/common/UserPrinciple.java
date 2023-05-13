@@ -57,7 +57,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.user.isEnabled();
+        return this.user.isEnabled();//validates the enabled user from the db
     }
 
     public Long getId() {
