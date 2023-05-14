@@ -187,7 +187,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public  List<TaskDTO> listAllTasksByStatus(Status status) {
         //No security, a user is hard coded, to see if the user is able to see other's tasks or not
-        User loggedInUser = userRepository.findByUserName("john@employee.com");
+       // User loggedInUser = userRepository.findByUserName("john@employee.com");
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User loggedInUser = userRepository.findByUserName(username);
         //get all the tasks
         List<Task> taskList = taskRepository.findAllByTaskStatusAndAssignedEmployee(status,loggedInUser);
         return taskList.stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
