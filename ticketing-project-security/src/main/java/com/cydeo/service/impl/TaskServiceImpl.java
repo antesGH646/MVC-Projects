@@ -10,6 +10,7 @@ import com.cydeo.mapper.TaskMapper;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.TaskService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -169,7 +170,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
         //No security, a user is hard coded, to see if the user is able to see other's tasks or not
-        User loggedInUser = userRepository.findByUserName("john@employee.com");
+        //User loggedInUser = userRepository.findByUserName("john@employee.com");
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User loggedInUser = userRepository.findByUserName(username);
         //get all the tasks
         List<Task> taskList = taskRepository.findAllByTaskStatusIsNotAndAssignedEmployee(status,loggedInUser);
         return taskList.stream().map(taskMapper::convertToDTO).collect(Collectors.toList());

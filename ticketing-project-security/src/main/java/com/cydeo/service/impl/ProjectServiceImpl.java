@@ -11,6 +11,7 @@ import com.cydeo.repository.ProjectRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -145,13 +146,17 @@ public class ProjectServiceImpl implements ProjectService {
      * This method returns a list of all project details
      * The manager has to see the list of projects after he/she
      * logs into the system
+     * Note that: SecurityContextHolder captures the username dynamically to
+     * avoid hard coding.
      * Fist all the projects from the db should be assigned to the manager
      * @return a list of project details
      */
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
-        //hard coding the manager by passing the username
-        UserDTO currentUserDTO = userService.findByUserName("james@gmail.com");
+        //Spring security captures the username dynamically
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+       // UserDTO currentUserDTO = userService.findByUserName("james@gmail.com");//hard coding
+        UserDTO currentUserDTO = userService.findByUserName(username);
         //convert the captured user into entity
         User user = userMapper.convertToEntity(currentUserDTO);
         //putting the converted user into a list assigned to the manager
