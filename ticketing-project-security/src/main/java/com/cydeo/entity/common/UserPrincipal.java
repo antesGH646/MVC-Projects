@@ -14,11 +14,11 @@ import java.util.List;
  * Gets the User's details from the db and sets them to the user details of the
  * User the class that implements the springboot UserDetails interface
  */
-public class UserPrinciple implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
     private final User user;
 
-    public UserPrinciple(User user) {
+    public UserPrincipal(User user) {
         this.user = user;
     }
 
