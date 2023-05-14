@@ -1,7 +1,7 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.entity.User;
-import com.cydeo.entity.common.UserPrinciple;
+import com.cydeo.entity.common.UserPrincipal;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.SecurityService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +35,6 @@ public class SecurityServiceImpl implements SecurityService {
             throw new UsernameNotFoundException("This user does not exist");
         }
         //takes a user entity and assigns it to the spring's user to validate using its methods
-        return new UserPrinciple(user);//UserPrinciple maps/compares/validates automatically
+        return new UserPrincipal(user);//UserPrinciple maps/compares/validates automatically
     }
 }
