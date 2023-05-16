@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @Controller
 public class AccountController {
-    //define a service, but need to create a constructor too
+    //defining with final requires to create a constructor too
     private final AccountService accountService;//to use methods in account service
 
     //inject accountService object using a constructor
@@ -43,16 +42,18 @@ public class AccountController {
 
     /**
      * This Controller method captures a data entry from the UI and displays it
-     * into the table. accountService object calls a method to capture the UI data
-     * into the java objects. Through model attribute the data is carried into
-     * the HTML of the table, and then through the Thymeleaf the data is displayed
      * into the table.
-     * redirect: means not need to create model attribute => Model model
+     * accountService object calls a method that captures the UI data
+     * providing the java objects.
+     * Through model attribute the data is carried into the HTML of the table,
+     * and then through the Thymeleaf the data is displayed into the table.
+     * redirect: means no need to create model attribute => Model model
      * model.addAttribute("accountList", accountService.listAllAccount())
-     * @Valid annotation should before the model Java object you need to validate, not before or after
-     * the BindingResult object
+     * The @Valid annotation should before the model Java object you need to validate,
+     * not before or after the BindingResult object
      * @param accountDTO Account
-     * @return the index html file to display a table filled out with data from the add new user form.
+     * @return the index html file to display a table filled out with data from
+     * the added new user form.
      */
     @PostMapping("/create") //create method to capture information from UI
     public String createAccount(@ModelAttribute("account") @Valid AccountDTO accountDTO,
@@ -71,8 +72,8 @@ public class AccountController {
     }
 
     /**
-     * get the account id from the UI and provide it the controller
-     * once the id is sent to the controller, need to find the account that
+     * gets the account id from the UI and provide it the controller
+     * once the id is sent to the controller, you need to find the id that
      * belongs to the account, then update the account status in the html
      * active to deleted and vice-versa
      * To catch the account id from the html and provide it to the controller
