@@ -13,8 +13,9 @@ import java.util.UUID;
 
 /**
  * The common practice is to define the business logic attributes
- * in the model package. The transaction will need to have a unique user identifier
- * to handle the amount, handle the receiver and sender, mark the date,
+ * in the model package.
+ * The account needs a unique user identifier
+ * to handle the amount, receiver, sender, mark the date,
  * and send an informative message
  */
 @Data

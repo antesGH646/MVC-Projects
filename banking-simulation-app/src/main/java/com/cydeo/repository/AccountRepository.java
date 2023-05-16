@@ -28,7 +28,7 @@ public class AccountRepository {
      * @return a list of accounts
      */
     public List<Account> findAllAccounts() {
-        return accountList; //returns the above added list of accounts
+        return accountList; //returns the above list of accounts
     }
 
     /**
@@ -39,7 +39,7 @@ public class AccountRepository {
      * @return matching id
      */
     public Account findAccountById(UUID id) {
-        //finds an account from the list of accounts by id, otherwise throws exception if it does not exist
+        //finds an account from the list of accounts by id, otherwise throws an exception (if it doesn't exist)
         return accountList.stream().filter(account -> account.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new RecordNotFoundException("Account not exist in the database."));

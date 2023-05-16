@@ -26,15 +26,15 @@ public class AccountController {
 
     @GetMapping("/index")
     public String getIndex(Model model) {
-        //want to display list of accounts on the UI
+        //want to display a list of accounts on the UI
         model.addAttribute("accountList", accountService.listAllAccounts());
-        //returns the index html file found in the accounts sub-folder under the templates
+        //returns the index html file located  under the templates sub-folder
         return "account/index";
     }
 
     @GetMapping("/create-account")
     public String addNewUserForm(Model model){
-        //want to display data from Account object into the UI
+        //want to display Account objects into the UI
         model.addAttribute("account", Account.builder().build());
         //want to display a list of the account types from enum into the Account Type dropdown
         model.addAttribute("accountTypes", AccountType.values());
@@ -42,48 +42,48 @@ public class AccountController {
     }
 
     /**
-     * This Controller method captures a data entry from the UI and displays it
-     * into the table. accountService object calls a method to capture the UI data
-     * into the java objects. Through model attribute the data is carried into
-     * the HTML of the table, and then through the Thymeleaf the data is displayed
-     * into the table.
-     * redirect: means not need to create model attribute => Model model
+     * This Controller method captures a data entry from the UI and displays/populates
+     * it into the table. accountService object calls a method to capture the UI data
+     * into the java objects. The data is carried through model attribute into
+     * the HTML of the table.
+     * redirect: means no need to create model attribute => Model model
      * model.addAttribute("accountList", accountService.listAllAccount())
-     * @Valid annotation should before the model Java object you need to validate, not before or after
-     * the BindingResult object
+     * The @Valid annotation should be before the model Java object that
+     * you need to validate, but it should not be before or after the BindingResult object
      * @param account Account
-     * @return the index html file to display a table filled out with data from the add new user form.
+     * @return the index html file to display filled out table with a captured data
+     * that comes from UI form.
      */
-    @PostMapping("/create") //create method to capture information from UI
+    @PostMapping("/create") //create method to capture data from UI
     public String createAccount(@ModelAttribute("account") @Valid Account account,
                                 BindingResult bindingResult, Model model) {
 
         if(bindingResult.hasErrors()) {
             model.addAttribute("accountTypes", AccountType.values());
-            return "account/create-account"; //return it to the same page until the user input is right
+            //return it to the same page until the user input is right
+            return "account/create-account";
         }
-
-        System.out.println(account);//print them on the console.
-        //trigger createAccount method, creates the account based on user input,
-        // will store whatever the user is entering.
+       // System.out.println(account);//print them on the console.
+        //triggers the createAccount() method, creates the account based on the user input,
+        // will store whatever the user enters.
         accountService.createNewAccount(account.getBalance(),
                 account.getCreationDate(),account.getAccountType(), account.getUserId());
         return "redirect:/index";
     }
 
     /**
-     * get the account id from the UI and provide it the controller
-     * once the id is sent to the controller, need to find the account that
-     * belongs to the account, then update the account status in the html
+     * gets the account id from the UI and provides it to the controller
+     * once the id is sent to the controller, you need to find the id that
+     * belongs to the account, then update the account status in the html,
      * active to deleted and vice-versa
-     * To catch the account id from the html and provide it to the controller
+     * Catches the account id from the html and provides it to the controller
      * @param id UUID
      * @return return the index html displaying the status to deleted or activated
      */
     @GetMapping("/delete/{id}")
         public String deleteAccount(@PathVariable("id") UUID id) {
         System.out.println(id);
-        //trigger deleteAccount method, captures whatever id the user is entering in the UI
+        //triggers deleteAccount() method, captures whatever id the user enters
         accountService.deleteAccount(id);
         return "redirect:/index";
     }

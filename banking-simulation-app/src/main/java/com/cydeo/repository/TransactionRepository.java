@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class TransactionRepository{
+public class TransactionRepository {
 
     //stores list of transactions
     public static List<Transaction> transactionList = new ArrayList<>();

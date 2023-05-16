@@ -23,15 +23,16 @@ public class TransactionController {
     private final AccountService accountService;
 
     //injecting by constructor
-    public TransactionController(TransactionService transactionService, AccountService accountService) {
+    public TransactionController(TransactionService transactionService,
+                                 AccountService accountService) {
         this.transactionService = transactionService;
         this.accountService = accountService;
     }
 
     /**
-     *
      * @param model Model to carry
-     * @return the make-transfer html file under the transaction package to display it in the UI
+     * @return the make-transfer html file under the transaction package
+     * to display it in the UI
      */
     @GetMapping("/make-transfer")
     public String getMakeTransfer(Model model) {

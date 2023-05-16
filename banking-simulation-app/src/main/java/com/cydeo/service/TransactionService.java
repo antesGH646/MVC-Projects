@@ -11,10 +11,12 @@ import java.util.UUID;
 /**
  * The business logic is to make a transaction and store list of transactions.
  * The common practice is to make services with abstract methods.
- * This class contains two abstract methods, the first abstract method is
- * make a transaction with required parameters. To a transaction the account type,
- * the balance of the account, the date of creation, and a user id are required.
- * The second abstract method stores a list of the transactions.
+ * This service class contains abstract methods, the first abstract method is
+ * make a transaction with required parameters. To make a transaction you need
+ * the account type, the balance of the account, the date of creation, and a user id.
+ * The second abstract method stores a list of all the transactions.
+ * The third abstract method stores a list of 10 transactions
+ * The fourth abstract method stores a list of found by their IDs
  */
 public interface TransactionService {
 
