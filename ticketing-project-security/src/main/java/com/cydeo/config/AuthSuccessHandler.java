@@ -15,8 +15,13 @@ import java.util.Set;
  * This class implementing the onAuthenticationSuccess() method
  * of the AuthenticationSuccessHandler interface which returns
  * a specific page based on a specified role
- * the method is called into the SecurityConfig to specify the landing page
+ * The onAuthenticationSuccess() method is implemented to specify the landing page
  * for every role.
+ * The AuthorityUtils has a method to capture a list of
+ * authorized roles to avoid duplication.
+ * The Authentication has the getAuthorities() method to fetch the roles
+ * HttpServletResponse has the sendRedirect() method to specify the returning pages
+ *
  */
 @Configuration
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {

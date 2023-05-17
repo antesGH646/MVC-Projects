@@ -153,7 +153,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
-        //Spring security captures the username dynamically
+        //Spring security captures the username from the database dynamically
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
        // UserDTO currentUserDTO = userService.findByUserName("james@gmail.com");//hard coding
         UserDTO currentUserDTO = userService.findByUserName(username);

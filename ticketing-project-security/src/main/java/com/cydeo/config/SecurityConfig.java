@@ -38,7 +38,8 @@ public class SecurityConfig {
 
     /**
      * This method modifies the security by specifying what types of roles can
-     * access what type of pages.
+     * access what type of pages. This method gets the credential roles from the database
+     * instead of hard coding them as the above example.
      * It may filter to permit all roles to certain pages
      * but authenticates or limits the access of the other pages.
      * The authentication might be basic or other types.
@@ -67,24 +68,24 @@ public class SecurityConfig {
                         "/fragments/**",
                         "/assets/**",
                         "/images/**"
-                ).permitAll()
-                .anyRequest().authenticated()
+                ).permitAll()//permits all roles to access the above packages/pages
+                .anyRequest().authenticated()//all other pages are restricted
                 .and()
                 //  .httpBasic()
                 .formLogin().loginPage("/login")
                    //  .defaultSuccessUrl("/welcome")
-                     .successHandler(authSuccessHandler)//injecting AuthSuccessHandler object
-                     .failureUrl("/login?error=true")
+                     .successHandler(authSuccessHandler)//injecting AuthSuccessHandler object, access based on role
+                     .failureUrl("/login?error=true")//will display if login fails
                 .permitAll()
                 //activate logout feature & landing on the login page
                 .and()
                 .logout()
-                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                     .logoutSuccessUrl("/login")
+                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//activates the UI logout feature
+                     .logoutSuccessUrl("/login")//marks to land on the login page
                 //activating the Remember me button
                 .and()
                 .rememberMe()
-                     .tokenValiditySeconds(120)//for how long
+                     .tokenValiditySeconds(120)//the session id is active for 120 seconds
                      .key("cydeo")
                      .userDetailsService(securityService)//which user, injecting the SecurityService
                 .and().build();
