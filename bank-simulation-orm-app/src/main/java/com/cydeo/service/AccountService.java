@@ -1,10 +1,7 @@
 package com.cydeo.service;
 
-import com.cydeo.enums.AccountType;
 import com.cydeo.dto.AccountDTO;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +29,9 @@ public interface AccountService {
     //business logic to activate an account
     void activateAccount(Long id);
 
-    AccountDTO retrieveAccountById(Long id);
-
     AccountDTO retrieveById(Long id);
+
+    List<AccountDTO> listAllActiveAccounts();
+
+    void updateAccount(AccountDTO receiverAccount);
 }

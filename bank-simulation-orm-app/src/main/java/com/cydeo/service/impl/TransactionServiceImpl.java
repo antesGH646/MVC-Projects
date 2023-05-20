@@ -10,6 +10,7 @@ import com.cydeo.dto.AccountDTO;
 import com.cydeo.mapper.TransactionMapper;
 import com.cydeo.repository.AccountRepository;
 import com.cydeo.repository.TransactionRepository;
+import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class TransactionServiceImpl implements TransactionService {
@@ -26,15 +27,17 @@ public class TransactionServiceImpl implements TransactionService {
     //For everything to work properly, the key is set to false in the properties files
     @Value("${under_construction}")
     private boolean underConstruction;
-    private final AccountRepository accountRepository;
+
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
+    private final AccountService accountService;
 
-    public TransactionServiceImpl(AccountRepository accountRepository,
-                                  TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
-        this.accountRepository = accountRepository;
+    public TransactionServiceImpl(TransactionRepository transactionRepository,
+                                  TransactionMapper transactionMapper,
+                                  AccountService accountService) {
         this.transactionRepository = transactionRepository;
         this.transactionMapper = transactionMapper;
+        this.accountService = accountService;
     }
 
     /**
@@ -56,25 +59,24 @@ public class TransactionServiceImpl implements TransactionService {
      * @return a transaction
      */
     @Override
-    public TransactionDTO makeTransfer(AccountDTO sender, AccountDTO receiver, BigDecimal amount,
-                                       Date creationDate, String message) {
+    public TransactionDTO makeTransfer(AccountDTO sender, AccountDTO receiver,
+                                       BigDecimal amount, Date creationDate, String message) {
 
-        if (!underConstruction) {//if under construction is not false (true) jumps to the else block
-            validateAccount(sender, receiver);
-            checkAccountOwnership(sender, receiver);
-            //validating if the sender has enough balance otherwise must throw exception
-            executeBalanceAndUpdateIfRequired(amount, sender, receiver);
+        if (!underConstruction) {
+            validateAccount(sender,receiver);
+            checkAccountOwnership(sender,receiver);
+            executeBalanceAndUpdateIfRequired(amount,sender,receiver);
+            /*
+            after all validations are completed, and money is transferred,
+            you need to  create Transaction object and save/return it.
+             */
+            TransactionDTO transactionDTO = new TransactionDTO(sender,receiver,amount,message,creationDate);
+            transactionRepository.save(transactionMapper.convertToEntity(transactionDTO));
+            return transactionDTO;
 
-            //After the transaction and money transfer is completed, create transaction object save/return it
-//            TransactionDTO transactionDTO = TransactionDTO.builder().amount(amount).sender(sender.getId())
-//                    .receiver(receiver.getId()).creationDate(creationDate).message(message).build();
-
-        //    return transactionRepository.save(transactionMapper.convertToEntity(transactionDTO));
-
-        } else {//if under construction is true stops the execution (throws exception)
+        }else {
             throw new UnderConstructionException("App is under construction,try again later.");
         }
-        return null;
     }
 
     /**
@@ -87,11 +89,23 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private void executeBalanceAndUpdateIfRequired(BigDecimal amount,
                                                    AccountDTO sender, AccountDTO receiver) {
+
         //if the balance is within the required limit, allows transfer, update the balances
         if(checkSenderBalance(sender, amount)) {
             //make balance transfer between sender and receiver, make the update
            sender.setBalance(sender.getBalance().subtract(amount));//updating when an amount is subtracted
            receiver.setBalance(receiver.getBalance().add(amount));//updating when an amount is added
+
+            //find the sender account
+            AccountDTO senderAccount = accountService.retrieveById(sender.getId());
+            senderAccount.setBalance(sender.getBalance());
+            //save again to database
+            accountService.updateAccount(senderAccount);
+
+            //find the receiver account
+            AccountDTO receiverAccount = accountService.retrieveById(receiver.getId());
+            receiverAccount.setBalance(receiver.getBalance());
+            accountService.updateAccount(receiverAccount);
         } else {
             //throw BalanceNotSufficientException, if the balance is not within the limit
             throw new BalanceNotSufficientException("Balance is not enough for this transfer.");
@@ -128,6 +142,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     /**
+     * This a helper method for the makeTransfer() method
      * Trows exception if the:
      *    -if any of the account is null
      *    -if account ids are of the same account
@@ -140,10 +155,12 @@ public class TransactionServiceImpl implements TransactionService {
         if(sender==null||receiver==null){
             throw new BadRequestException("Sender or Receiver cannot be null");
         }
+
         //validate if the accounts are the same
         if(sender.getId().equals(receiver.getId())){
             throw new BadRequestException("Sender account needs to be different than receiver");
         }
+
         //verify if the sender and receiver exist in the database (repository)
         findAccountById(sender.getId());
         findAccountById(receiver.getId());
@@ -153,8 +170,8 @@ public class TransactionServiceImpl implements TransactionService {
      * Finds an account by its id
      * @param id Long
      */
-    private void findAccountById(Long id) {
-        accountRepository.findById(id);
+    private AccountDTO findAccountById(Long id) {
+        return accountService.retrieveById(id);
     }
 
     /**
@@ -162,18 +179,26 @@ public class TransactionServiceImpl implements TransactionService {
      * @return list of transactions
      */
     @Override
-    public List<TransactionDTO> findAllTransaction() {
-        return transactionRepository.findAllTransactions();
+    public List<TransactionDTO> findAllTransactions() {
+
+        //get the transaction entity for all and return them as a list of transactionDTO
+        return transactionRepository.findAll().stream()
+                .map(transactionMapper::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> last10Transactions() {
         //we want last 10 latest transaction
-        return transactionRepository.findLast10Transactions();
+        return transactionRepository.findLast10Transactions().stream()
+                .map(transactionMapper::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<TransactionDTO> findTransactionListByID(UUID id) {
-        return transactionRepository.findTransactionListById(id);
+    public List<TransactionDTO> findTransactionListByID(Long id) {
+        return transactionRepository.findTransactionListId(id).stream()
+                .map(transactionMapper::convertToDTO).collect(Collectors.toList());
     }
+
+
 }

@@ -6,7 +6,6 @@ import com.cydeo.dto.TransactionDTO;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * The business logic is to make a transaction and store list of transactions.
@@ -23,10 +22,12 @@ public interface TransactionService {
                                 BigDecimal amount, Date creationDate, String message);
 
     //finds all transactions and stores them in a list
-    List<TransactionDTO> findAllTransaction();
+    List<TransactionDTO> findAllTransactions();
 
     List<TransactionDTO> last10Transactions();
 
 
-    List<TransactionDTO> findTransactionListByID(UUID id);
+    List<TransactionDTO> findTransactionListByID(Long id);
+
+
 }

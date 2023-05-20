@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.UUID;
 
 @Controller
 public class TransactionController {
@@ -38,9 +37,9 @@ public class TransactionController {
     @GetMapping("/make-transfer")
     public String getMakeTransfer(Model model) {
         //create model attribute that carries empty Transaction object
-        model.addAttribute("transaction", new TransactionDTO());
+        model.addAttribute("transactionDTO", new TransactionDTO());
         //create model attribute that carries list of all accounts
-        model.addAttribute("accounts", accountService.listAllAccounts());
+        model.addAttribute("accounts", accountService.listAllActiveAccounts());
         //create model attribute that carries the last 10 list of transactions in sorted order
         model.addAttribute("lastTransactions", transactionService.last10Transactions());
         return "/transaction/make-transfer";
@@ -53,7 +52,7 @@ public class TransactionController {
      * @return make-transfer html to display it in the UI
      */
     @PostMapping("/transfer")
-    public String makeTransfer(@ModelAttribute("transaction") @Valid TransactionDTO transactionDTO,
+    public String makeTransfer(@ModelAttribute("transactionDTO") @Valid TransactionDTO transactionDTO,
                                BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()){
@@ -61,8 +60,8 @@ public class TransactionController {
             return "/transaction/make-transfer";
         }
 
-        AccountDTO sender = accountService.retrieveAccountById(transactionDTO.getSender().getId());
-        AccountDTO receiver = accountService.retrieveAccountById(transactionDTO.getReceiver().getId());
+        AccountDTO sender = accountService.retrieveById(transactionDTO.getSender().getId());
+        AccountDTO receiver = accountService.retrieveById(transactionDTO.getReceiver().getId());
         transactionService.makeTransfer(sender,receiver, transactionDTO.getAmount(),
                 new Date(), transactionDTO.getMessage());
         return "redirect:/make-transfer";
@@ -75,7 +74,7 @@ public class TransactionController {
      * @return the transactions html view under the transaction folder
      */
     @GetMapping("/transaction/{id}")
-    public String transaction(@PathVariable("id") UUID id, Model model) {
+    public String transaction(@PathVariable("id") Long id, Model model) {
         System.out.println(id);
         model.addAttribute("transactions", transactionService.findTransactionListByID(id));
         return "/transaction/transactions";
