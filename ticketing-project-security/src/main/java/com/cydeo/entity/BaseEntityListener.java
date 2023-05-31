@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
  * for this reason the class is created to extend from
  * AuditingEntityListener.
  * This class is designed to capture the user id of the role who making
- * the changes/updates in the UI.
+ * the changes/updates in the UI. It listens then captures when the ids in the base entity are used.
+ * Therefore, the BaseEntity has to be annotated with the @EntityListeners(BaseEntityListener.class)
  */
 public class BaseEntityListener extends AuditingEntityListener {
     /**
