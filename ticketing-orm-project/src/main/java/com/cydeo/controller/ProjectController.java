@@ -40,6 +40,11 @@ public class ProjectController {
 
     /**
      * This method saves the user entry into the UI Project List table
+     * the @Valid marks Spring to find the validator
+     * BindingResult holds validation result errors that may have occurred promoting execution,
+     * otherwise Spring will throw an exception due to type conversion and terminate the execution.
+     * BindingResult should come after the Object which is being validated.
+     * Parameter order matters.
      * @param project ProjectDTO
      * @param bindingResult BindingResult
      * @param model Model

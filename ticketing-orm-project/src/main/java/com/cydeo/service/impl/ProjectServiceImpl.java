@@ -47,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public ProjectDTO getByProjectCode(String code) {
-        Project project = projectRepository.findByProjectCode(code);//called an abstract method
+        Project project = projectRepository.findByProjectCode(code);//fetches a project from the db by its code
         return projectMapper.convertToDTO(project);
     }
 
@@ -125,11 +125,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     /**
-     * This method displays if a project is not completed or not
+     * This method displays if a project is completed or not.
      * The manager should not be able to mark Completed on a project
-     * if all the assigned tasks are not finished or completed
-     * First find the status of the project
-     * Second display if completed or not
+     * unless the assigned tasks finished or completed.
+     *  -First find the status of the project
+     *  -Second display it completed or not
      * @param projectCode String
      */
     @Override
