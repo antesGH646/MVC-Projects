@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <!-- to use all thymeleaf add:  xmlns:th="https://www.thymeleaf.org"-->
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -16,6 +17,9 @@
 <body>
 <div class="container my-5">
     <div class="row">
+        <div>
+            <a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-power-off mr-2"></i>Logout</a>
+        </div>
         <div class="col-md-6">
             <!-- if-unless means if-else -->
             <div th:if="${accountList.size() == 0}">
@@ -31,7 +35,7 @@
                         <th>Balance</th>
                         <th>Account Type</th>
                         <th>CreationDate</th>
-                        <th>Delete</th>
+                        <th sec:authorize="hasAnyAuthority('Admin')">Delete</th>
                         <th>Account Transactions</th>
                     </tr>
                     </thead>
@@ -49,7 +53,7 @@
                         <!--Once the Delete button is clicked, it should navigate to the /delete/{id} end point
                         dynamically => th:href="@{/delete/{id}(id=${account.id})}", statically =>
                         th:href="@{/delete/{id}(id=123)}"-->
-                        <td>
+                        <td sec:authorize="hasAnyAuthority('Admin')">
                             <a th:if="${account.accountStatus.name() == 'ACTIVE'}" class="btn btn-danger" th:href="@{/delete/{id}(id=${account.id})}">Delete</a>
                             <a th:if="${account.accountStatus.name() == 'DELETED'}" class="btn btn-success" th:href="@{/activate/{id}(id=${account.id})}">Activate</a>
                         </td>
@@ -59,7 +63,7 @@
                 </table>
             </div>
             <!--If the Create Account button is clicked, directs to the create endpoint which displays the create-account html -->
-            <p class="my-5"><a th:href="@{/create-account}" class="btn btn-primary">Create Account<i class="fas fa-user-plus ml-2"></i></a></p>
+            <p class="my-5"><a sec:authorize="hasAnyAuthority('Admin')" th:href="@{/create-account}" class="btn btn-primary">Create Account<i class="fas fa-user-plus ml-2"></i></a></p>
             <!--If the Make Transfer button is clicked, directs to the endpoint in the TransactionController which displays the make transfer html -->
             <p class="my-5"><a th:href="@{/make-transfer}" class="btn btn-primary">Make Transfer<i class="fas fa-user-plus ml-2"></i></a></p>
         </div>
