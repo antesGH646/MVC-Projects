@@ -3,18 +3,14 @@ package com.cydeo.service.impl;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.entity.Project;
-import com.cydeo.entity.Task;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllUsers() {
-
         List<User> userList = userRepository.findAll(Sort.by("firstName"));
         return userList.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
 
@@ -50,13 +45,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserDTO dto) {
-
         dto.setEnabled(true);
-
         User obj = userMapper.convertToEntity(dto);
-
         userRepository.save(obj);
-
     }
 
     @Override
@@ -70,7 +61,6 @@ public class UserServiceImpl implements UserService {
         convertedUser.setId(user.getId());
         //save updated user
         userRepository.save(convertedUser);
-
         return findByUserName(dto.getUserName());
     }
 
@@ -92,6 +82,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * If an employee has any uncompleted task
+     * or if a manager has some assigned projects
+     * you cannot delete the username or the user
+     * Otherwise you will get 500 internal server error response
+     * @param user User
+     * @return boolean
+     */
     private boolean checkIfUserCanBeDeleted(User user) {
 
         switch (user.getRole().getDescription()) {
@@ -104,14 +102,11 @@ public class UserServiceImpl implements UserService {
             default:
                 return true;
         }
-
     }
 
     @Override
     public List<UserDTO> listAllByRole(String role) {
-
         List<User> users = userRepository.findAllByRoleDescriptionIgnoreCase(role);
-
         return users.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
     }
 }
