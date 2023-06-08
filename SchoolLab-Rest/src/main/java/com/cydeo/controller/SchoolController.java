@@ -2,12 +2,14 @@ package com.cydeo.controller;
 
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.TeacherDTO;
+import com.cydeo.service.AddressService;
 import com.cydeo.service.ParentService;
 import com.cydeo.service.StudentService;
 import com.cydeo.service.TeacherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,10 +20,12 @@ public class SchoolController {
     private final TeacherService teacherService;
     private final StudentService studentService;
     private final ParentService parentService;
-    public SchoolController(TeacherService teacherService, StudentService studentService, ParentService parentService) {
+    private final AddressService addressService;
+    public SchoolController(TeacherService teacherService, StudentService studentService, ParentService parentService, AddressService addressService) {
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.parentService = parentService;
+        this.addressService = addressService;
     }
 
     /**
@@ -65,4 +69,17 @@ public class SchoolController {
                 .body(responseWrapper);
     }
 
+    /**
+     * creating an endpoint for individual Address information
+     *         /address/1
+     *         return status code 200
+     *         message: "Address is successfully retrieved."
+     *         success: true
+     *         and address information
+     */
+    @GetMapping("/address/{id}")
+    public ResponseEntity<ResponseWrapper> getAllAddresses(@PathVariable("id") Long id) throws Exception {
+        return ResponseEntity.ok(new ResponseWrapper(true, "Addresses are successfully retrieved",
+                HttpStatus.OK.value(), addressService.findById(id)));
+    }
 }
