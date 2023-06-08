@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * This class implements the AuthenticationSuccessHandler interface to
+ * override the onAuthenticationSuccess() method to determine the roles
+ * pages access
+ */
 @Configuration
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 

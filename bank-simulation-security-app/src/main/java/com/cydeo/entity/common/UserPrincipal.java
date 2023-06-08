@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Implementing the UserDetails interface forces us
+ * to return our own user entity details
+ */
 public class UserPrincipal implements UserDetails {
 
     private final User user;
@@ -19,10 +23,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        //creating a list of granted authorities
         List<GrantedAuthority> authorityList = new ArrayList<>();
+        //The granted authorities comes from the getRole, because the User has a Role object as a field
         GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRole().getDescription());
-        authorityList.add(authority);
-        return authorityList;
+        authorityList.add(authority);//adding the granted authority into the list
+        return authorityList; //returning a list of granted authorities
     }
 
     @Override
@@ -52,6 +58,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.user.isEnabled();
+        return this.user.isEnabled();//User has isEnabled field
     }
 }
