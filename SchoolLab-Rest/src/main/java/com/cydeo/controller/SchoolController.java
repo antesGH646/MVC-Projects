@@ -82,4 +82,9 @@ public class SchoolController {
         return ResponseEntity.ok(new ResponseWrapper(true, "Addresses are successfully retrieved",
                 HttpStatus.OK.value(), addressService.findById(id)));
     }
+
+    /**
+     * creating an endpoint to update individual address information
+     * and directly returning the updated address
+     */
 }
