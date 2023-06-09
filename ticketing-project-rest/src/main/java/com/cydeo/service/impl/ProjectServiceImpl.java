@@ -8,11 +8,13 @@ import com.cydeo.enums.Status;
 import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.ProjectRepository;
-import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +29,11 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserMapper userMapper;
     private final TaskService taskService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper, @Lazy UserService userService, UserMapper userMapper, TaskService taskService) {
+    public ProjectServiceImpl(ProjectRepository projectRepository,
+                              ProjectMapper projectMapper,
+                              @Lazy UserService userService,
+                              UserMapper userMapper,
+                              TaskService taskService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
         this.userService = userService;
@@ -46,7 +52,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<Project> list = projectRepository.findAll();
         return list.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
-
     }
 
     @Override
@@ -56,8 +61,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = projectMapper.convertToEntity(dto);
         projectRepository.save(project);
-
-
     }
 
     @Override
@@ -69,9 +72,6 @@ public class ProjectServiceImpl implements ProjectService {
         convertedProject.setProjectStatus(project.getProjectStatus());
 
         projectRepository.save(convertedProject);
-
-
-
     }
 
     @Override
@@ -84,7 +84,6 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
 
         taskService.deleteByProject(projectMapper.convertToDto(project));
-
     }
 
     @Override
@@ -101,7 +100,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
 
-        UserDTO currentUserDTO = userService.findByUserName("harold@manager.com");
+        //fetched by hard coded username
+       // UserDTO currentUserDTO = userService.findByUserName("harold@manager.com");
+
+        //instead of hard coding username needs to be caught from keycloak
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SimpleKeycloakAccount details = (SimpleKeycloakAccount) authentication.getDetails();
+        String username = details.getKeycloakSecurityContext().getToken().getPreferredUsername();
+        UserDTO currentUserDTO = userService.findByUserName(username);
 
         User user = userMapper.convertToEntity(currentUserDTO);
 
@@ -114,10 +120,7 @@ public class ProjectServiceImpl implements ProjectService {
             obj.setUnfinishedTaskCounts(taskService.totalNonCompletedTask(project.getProjectCode()));
             obj.setCompleteTaskCounts(taskService.totalCompletedTask(project.getProjectCode()));
 
-
             return obj;
-
-
 
         }).collect(Collectors.toList());
     }
@@ -127,6 +130,4 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> list = projectRepository.findAllByAssignedManager(assignedManager);
         return list.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
     }
-
-
 }
