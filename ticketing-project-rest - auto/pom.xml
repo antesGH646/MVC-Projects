@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>com.cydeo</groupId>
-	<artifactId>ticketing-project-rest</artifactId>
+	<artifactId>ticketing-project-rest-auto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ticketing-project-rest</name>
 	<description>ticketing-project-rest</description>
