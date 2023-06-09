@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,7 @@ public class UserController {
      * @return ResponseWrapper
      */
     @GetMapping
+    @RolesAllowed("Admin")//adding restriction based on method level
     public ResponseEntity<ResponseWrapper> getUsers() {
         //getting the list from UserService
         List<UserDTO> userDTOList = userService.listAllUsers();
@@ -37,6 +39,7 @@ public class UserController {
      * @return ResponseWrapper
      */
     @GetMapping("/{userName}")
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> getUserByUserName(@PathVariable("userName") String userName) {
         //getting the list from UserService
         UserDTO userDTO = userService.findByUserName(userName);
@@ -49,6 +52,7 @@ public class UserController {
      * @return ResponseWrapper mapped user object
      */
     @PostMapping
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> createUser(@RequestBody UserDTO userDTO) {
         userService.save(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("User is successfully created",HttpStatus.CREATED));
@@ -61,12 +65,14 @@ public class UserController {
      */
 
     @PutMapping
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> updateUser(@RequestBody UserDTO userDTO) {
         userService.update(userDTO);
         return ResponseEntity.ok(new ResponseWrapper("User is successfully updated",HttpStatus.OK));
     }
 
     @DeleteMapping("/{userName}")
+    @RolesAllowed("Admin")
     public ResponseEntity<ResponseWrapper> deleteUser(@PathVariable("userName") String username) {
         userService.deleteByUserName(username);
        // return ResponseEntity.ok(new ResponseWrapper("User is successfully deleted",HttpStatus.OK));
