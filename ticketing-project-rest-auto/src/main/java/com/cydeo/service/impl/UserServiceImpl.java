@@ -101,7 +101,12 @@ public class UserServiceImpl implements UserService {
      * @param user User
      * @return boolean
      */
-    private boolean checkIfUserCanBeDeleted(User user) {
+    private boolean checkIfUserCanBeDeleted(User user) throws TicketingProjectException {
+
+        //use custom TicketingProjectException exception
+        if(user ==null) {
+            throw new TicketingProjectException("User not found");
+        }
 
         switch (user.getRole().getDescription()) {
             case "Manager":

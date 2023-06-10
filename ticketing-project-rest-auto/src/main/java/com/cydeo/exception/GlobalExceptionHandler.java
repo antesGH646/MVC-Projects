@@ -15,24 +15,28 @@ import org.springframework.web.method.HandlerMethod;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-@RestControllerAdvice
+@RestControllerAdvice//marks java not to throw exception but to come to this class whenever an exception occurs
 public class GlobalExceptionHandler {
 
+    //runs/handles when an exception occur in TicketingProjectException class
     @ExceptionHandler(TicketingProjectException.class)
     public ResponseEntity<ResponseWrapper> serviceException(TicketingProjectException se){
         String message = se.getMessage();
         return new ResponseEntity<>(ResponseWrapper.builder().success(false).code(HttpStatus.CONFLICT.value()).message(message).build(),HttpStatus.CONFLICT);
     }
 
+    //runs/handles when an exception occur in AccessDeniedException class
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseWrapper> accessDeniedException(AccessDeniedException se){
         String message = se.getMessage();
         return new ResponseEntity<>(ResponseWrapper.builder().success(false).code(HttpStatus.FORBIDDEN.value()).message(message).build(),HttpStatus.FORBIDDEN);
     }
 
+    //runs/handles when an exception occur generally in the other classes
     @ExceptionHandler({Exception    .class, RuntimeException.class, Throwable.class, BadCredentialsException.class})
     public ResponseEntity<ResponseWrapper> genericException(Throwable e, HandlerMethod handlerMethod) {
 
+        //if the DefaultExceptionMessage annotation is present
         Optional<DefaultExceptionMessageDTO> defaultMessage = getMessageFromAnnotation(handlerMethod.getMethod());
         if (defaultMessage.isPresent() && !ObjectUtils.isEmpty(defaultMessage.get().getMessage())) {
             ResponseWrapper response = ResponseWrapper
@@ -41,8 +45,9 @@ public class GlobalExceptionHandler {
                     .message(defaultMessage.get().getMessage())
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .build();
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);//for classes with @DefaultMessage
         }
+        //for the other classes exceptions other than the DefaultExceptionMessage annotation
         return new ResponseEntity<>(ResponseWrapper.builder().success(false).message("Action failed: An error occurred!").code(HttpStatus.INTERNAL_SERVER_ERROR.value()).build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
