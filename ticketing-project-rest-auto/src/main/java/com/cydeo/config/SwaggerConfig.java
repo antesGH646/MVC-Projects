@@ -33,7 +33,7 @@ public class SwaggerConfig {
     private Info getInfo() {
         return new Info()
                 .title("Ticketing App Rest")
-                .description("Api documentation")
+                .description("API Documentation")
                 .version("v1.0");
     }
 
