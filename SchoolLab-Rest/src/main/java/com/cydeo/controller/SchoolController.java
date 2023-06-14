@@ -1,5 +1,6 @@
 package com.cydeo.controller;
 
+import com.cydeo.dto.AddressDTO;
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.TeacherDTO;
 import com.cydeo.service.AddressService;
@@ -8,9 +9,7 @@ import com.cydeo.service.StudentService;
 import com.cydeo.service.TeacherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class SchoolController {
      *      be serialized to Json or exposed or be invisible. Use the @JsonIgnore() annotation for IDs
      *      and the  @JsonProperty() annotation for passwords, etc. On the class level can use
      *      the @JsonInclude(JsonInclude.Include.NON_NULL) and the @JsonIgnoreProperties(ignoreUnknown = true)
-     *      annotations.
+     *      annotations. If a DTO field is not serialized it means it won't show up with the API response.
      *
      * @return a list of teachers
      */
@@ -63,11 +62,14 @@ public class SchoolController {
 
     /**
      * Creating an endpoint for students
-     * responding message: "Students are successfully retrieved"
-     * code: 200
-     * success: true
-     * student data
-     * Objects of ResponseWrapper will be serialized to Json fetched with student data
+     * The following additional objects are added beside the default json objects.
+     * The objects are serialized in the ResponseWrapper so have to be serialized
+     * to Json to send them with student data.
+     *    responding message: "Students are successfully retrieved"
+     *    code: 200
+     *    success: true
+     *    student data
+     *  ResponseEntity helps to customize the added objects along with data you want.
      */
     @GetMapping("/students")
     public ResponseEntity<ResponseWrapper> getAllStudents() {
@@ -77,10 +79,13 @@ public class SchoolController {
 
     /**
      * Creating an endpoint for parents
-     * responding message: "Parents are successfully retrieved"
-     * code: 202
-     * success: true
-     * parents data
+     * The following additional objects are added beside the default json objects.
+     * The objects are serialized in the ResponseWrapper so have to be serialized
+     * to Json to send them with parent data.
+     *      responding message: "Parents are successfully retrieved"
+     *      code: 202
+     *      success: true
+     *      parents data
      */
     @GetMapping("/parents")
     public ResponseEntity<ResponseWrapper> getAllParents() {
@@ -94,11 +99,13 @@ public class SchoolController {
 
     /**
      * creating an endpoint for individual Address information
-     *         /address/1
+     *  e.g /address/1
+     *  The following additional objects are added beside the default json objects
      *         return status code 200
      *         message: "Address is successfully retrieved."
      *         success: true
      *         and address information
+     *
      */
     @GetMapping("/address/{id}")
     public ResponseEntity<ResponseWrapper> getAllAddresses(@PathVariable("id") Long id) throws Exception {
@@ -110,4 +117,11 @@ public class SchoolController {
      * creating an endpoint to update individual address information
      * and directly returning the updated address
      */
+    @PostMapping
+    public AddressDTO updateAddress(@RequestBody AddressDTO addressDTO) throws Exception {
+        return  addressService.update(addressDTO);
+    }
+
+
+
 }
