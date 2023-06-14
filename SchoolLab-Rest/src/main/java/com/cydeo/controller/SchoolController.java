@@ -21,7 +21,10 @@ public class SchoolController {
     private final StudentService studentService;
     private final ParentService parentService;
     private final AddressService addressService;
-    public SchoolController(TeacherService teacherService, StudentService studentService, ParentService parentService, AddressService addressService) {
+    public SchoolController(TeacherService teacherService,
+                            StudentService studentService,
+                            ParentService parentService,
+                            AddressService addressService) {
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.parentService = parentService;
@@ -30,6 +33,26 @@ public class SchoolController {
 
     /**
      * Adding teachers endpoint
+     *NB.
+     *   1) Note that Controllers' methods work with DTOs
+     *   2) Spring serializes the DTO's fields into Json objects and returns it.
+     *   3) Though the Controller method looks fine, but the famous StackOverFlowError
+     *      or infinite recursion may occur during serialization when there is bidirectional
+     *      relationship between two or more DTOs . Similar the circular dependency
+     *      issue that occurs in ORM or Springboot (we use @Lazy annotation to solve the issues),
+     *      Spring creates json objects from the fields inside the DTO, therefore the methods will
+     *      call each other causing infinite recursion depleting the memory. To break this chain
+     *      use the  @JsonManagedReference annotation which means I do not want the specified DTO
+     *      when during serializing. You may place this annotation in either of the DTOs. Spring will
+     *      serialize all the fields of the related DTOs once, but the DTOs will not call each other infinitely.
+     *      When you use @JsonManagedReference annotation more than once, in related DTOs it is a good practice to
+     *      specify the values meaning marking where the DTO field is. It requires some kind of unique values.
+     *   4) sensitive DTO fields such as password fields, null fields, and unknown fields should not
+     *      be serialized to Json or exposed or be invisible. Use the @JsonIgnore() annotation for IDs
+     *      and the  @JsonProperty() annotation for passwords, etc. On the class level can use
+     *      the @JsonInclude(JsonInclude.Include.NON_NULL) and the @JsonIgnoreProperties(ignoreUnknown = true)
+     *      annotations.
+     *
      * @return a list of teachers
      */
     @GetMapping("/teachers")
