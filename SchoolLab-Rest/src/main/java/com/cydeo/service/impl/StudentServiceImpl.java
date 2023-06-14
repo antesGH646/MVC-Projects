@@ -21,6 +21,12 @@ public class StudentServiceImpl implements StudentService {
         this.mapperUtil = mapperUtil;
     }
 
+    /**
+     * The fetched objects has to be mapped into DTO objects first
+     * before returning them as a list. MapperUtil a convert() method that
+     * converts entities into DTOs and vice-versa.
+     * @return a list of mapped DTO objects
+     */
     @Override
     public List<StudentDTO> findAll() {
         return studentRepository.findAll()
