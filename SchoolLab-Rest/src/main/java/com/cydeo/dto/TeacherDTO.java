@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//ignoring unknown from serializing to json
+//ignoring unknown fields from serializing to json objects so won't show up in api response body
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TeacherDTO {
