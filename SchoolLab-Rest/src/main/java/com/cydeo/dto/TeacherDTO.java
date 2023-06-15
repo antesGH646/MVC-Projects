@@ -29,7 +29,7 @@ public class TeacherDTO {
     private String email;
     private String username;
 
-    //ignore password from serializing to json
+    //write the password in the request body or headers, but will not show up on the response body, will be ignored
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

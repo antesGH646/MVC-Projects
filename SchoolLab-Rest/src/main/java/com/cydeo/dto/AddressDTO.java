@@ -39,5 +39,6 @@ public class AddressDTO {
     @JsonBackReference(value = "teacher-address-reference")
     private TeacherDTO teacher;
 
+    //will consume weather-stack api to get the temperature value
     private Integer currentTemperature;
 }
