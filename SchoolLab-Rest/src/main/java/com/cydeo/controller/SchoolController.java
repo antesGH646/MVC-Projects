@@ -3,7 +3,6 @@ package com.cydeo.controller;
 import com.cydeo.dto.AddressDTO;
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.TeacherDTO;
-import com.cydeo.dto.weather.WeatherDTO;
 import com.cydeo.service.AddressService;
 import com.cydeo.service.ParentService;
 import com.cydeo.service.StudentService;
@@ -116,27 +115,19 @@ public class SchoolController {
     }
 
     /**
-     * creating an endpoint to update individual address information
-     * and directly returning the updated address
+     * - Creating an endpoint to update individual address information
+     *   and directly returning the updated address
+     * - To display the current temperature and country flag with the json response
+     *   requires consuming the external APIs
+     *   To consume external api
+     *      1) add feign client dependency
+     *      2) add @EnableFeignClient annotation in your runner class
+     *      3) create feign client interface method
+     *      4) convert the json response into DTOs and add them to the dto package
      */
     @PutMapping("/address/{id}")
     public AddressDTO updateAddress(@PathVariable("id") Long id, @RequestBody AddressDTO addressDTO) throws Exception {
         addressDTO.setId(id);
         return  addressService.update(addressDTO);
-    }
-
-    /**
-     * To display the current temperature on the json response
-     * requires consuming the external api with feign client template
-     * To consume external api
-     *      1) add feign client dependency
-     *      2) add @EnableFeignClient annotation in your runner class
-     *      3) create feign client interface method
-     *      4) convert the json response into DTOs and add them to the dto package
-     *
-     */
-    @GetMapping("")
-    WeatherDTO getWeatherStack() {
-        return null;
     }
 }
