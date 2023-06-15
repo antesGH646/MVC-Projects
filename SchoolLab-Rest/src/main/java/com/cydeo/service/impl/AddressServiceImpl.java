@@ -1,5 +1,6 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.client.CountryApiClient;
 import com.cydeo.client.WeatherApiClient;
 import com.cydeo.dto.AddressDTO;
 import com.cydeo.entity.Address;
@@ -21,15 +22,18 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final MapperUtil mapperUtil;
     private final WeatherApiClient weatherApiClient;
+    private final CountryApiClient countryApiClient;
 
     public AddressServiceImpl(AddressRepository addressRepository,
                               MapperUtil mapperUtil,
-                              WeatherApiClient weatherApiClient) {
+                              WeatherApiClient weatherApiClient,
+                              CountryApiClient countryApiClient) {
+        this.countryApiClient = countryApiClient;
+        this.accessKey = accessKey;
         this.addressRepository = addressRepository;
         this.mapperUtil = mapperUtil;
         this.weatherApiClient = weatherApiClient;
     }
-
     @Override
     public List<AddressDTO> findAll() {
         return addressRepository.findAll()
@@ -47,7 +51,14 @@ public class AddressServiceImpl implements AddressService {
         //get current temperature based on the city
         addressDTO.setCurrentTemperature(retrieveTemperatureByCity(addressDTO.getCity()));
 
+        //get flag based on the country
+        addressDTO.setFlag(retrieveFlagByCountry(addressDTO.getCountry()));
+
         return addressDTO;
+    }
+
+    private String retrieveFlagByCountry(String country) {
+        return countryApiClient.getCountryInfo(country).get(0).getFlags().getPng();
     }
 
     private Integer retrieveTemperatureByCity(String city) {
