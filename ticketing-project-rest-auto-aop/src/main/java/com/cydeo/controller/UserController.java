@@ -1,6 +1,7 @@
 package com.cydeo.controller;
 
 import com.cydeo.annotation.DefaultExceptionMessage;
+import com.cydeo.annotation.ExecutionTime;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.ResponseWrapper;
 import com.cydeo.exception.TicketingProjectException;
@@ -29,6 +30,7 @@ public class UserController {
      * Return a list of all users
      * @return ResponseWrapper
      */
+    @ExecutionTime//monitors the performance time through Performance aspect
     @GetMapping
     @RolesAllowed("Admin")//adding restriction based on method level
     @Operation(summary = "Get Users")
@@ -44,6 +46,7 @@ public class UserController {
      * not the status code
      * @return ResponseWrapper
      */
+    @ExecutionTime//monitors the execution time through Performance aspect
     @GetMapping("/{userName}")
     @RolesAllowed("Admin")
     @Operation(summary = "Get User By Username ")
