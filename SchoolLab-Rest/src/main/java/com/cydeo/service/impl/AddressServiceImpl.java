@@ -4,6 +4,7 @@ import com.cydeo.client.CountryApiClient;
 import com.cydeo.client.WeatherApiClient;
 import com.cydeo.dto.AddressDTO;
 import com.cydeo.entity.Address;
+import com.cydeo.exception.NotFoundException;
 import com.cydeo.util.MapperUtil;
 import com.cydeo.repository.AddressRepository;
 import com.cydeo.service.AddressService;
@@ -45,7 +46,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO findById(Long id) throws Exception {
         Address foundAddress = addressRepository.findById(id)
-                .orElseThrow(() -> new Exception("No Address Found!"));
+                .orElseThrow(() -> new NotFoundException("No Address Found!"));
         AddressDTO addressDTO = mapperUtil.convert(foundAddress, new AddressDTO());
 
         //get current temperature based on the city

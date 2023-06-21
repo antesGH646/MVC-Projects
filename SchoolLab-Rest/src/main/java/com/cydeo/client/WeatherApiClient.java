@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface WeatherApiClient {
 
     /**
+     * This method consumes an API that asks headers.
      * base url =
      * endpoint =
      * parameters:
