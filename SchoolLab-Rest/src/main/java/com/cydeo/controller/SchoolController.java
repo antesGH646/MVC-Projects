@@ -130,4 +130,21 @@ public class SchoolController {
         addressDTO.setId(id);
         return  addressService.update(addressDTO);
     }
+
+    /**
+        create an endpoint for creating teacher
+        return Http status 201
+        custom header "teacherId","idCreated"
+        responseWrapper("Teacher is created",teacherInfo)
+     */
+    @PostMapping("/teachers")
+    public ResponseEntity<ResponseWrapper> creatTeacher(@RequestBody TeacherDTO teacherDTO) throws Exception {
+        TeacherDTO teacher = teacherService.createTeacher(teacherDTO);
+        ResponseWrapper responseWrapper = new ResponseWrapper(true,"Teacher is created."
+                ,HttpStatus.CREATED.value(),teacher);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("teacherId",String.valueOf(teacher.getId()))
+                .body(responseWrapper);
+    }
 }

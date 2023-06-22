@@ -10,4 +10,5 @@ public interface TeacherService {
 
     TeacherDTO findById(Long id) throws Exception;
 
+    TeacherDTO createTeacher(TeacherDTO teacherDTO);
 }

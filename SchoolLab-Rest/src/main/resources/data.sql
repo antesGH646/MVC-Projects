@@ -139,3 +139,4 @@ INSERT INTO public.course (id, description, course_name)
 VALUES (8,
         'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
         'Biology');
+SELECT setval(pg_get_serial_sequence('teacher', 'id'), coalesce(max(id),0) + 1, false) FROM public.teacher;
