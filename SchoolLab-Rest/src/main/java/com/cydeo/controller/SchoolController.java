@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -138,7 +139,7 @@ public class SchoolController {
         responseWrapper("Teacher is created",teacherInfo)
      */
     @PostMapping("/teachers")
-    public ResponseEntity<ResponseWrapper> creatTeacher(@RequestBody TeacherDTO teacherDTO) throws Exception {
+    public ResponseEntity<ResponseWrapper> creatTeacher(@Valid @RequestBody TeacherDTO teacherDTO) throws Exception {
         TeacherDTO teacher = teacherService.createTeacher(teacherDTO);
         ResponseWrapper responseWrapper = new ResponseWrapper(true,"Teacher is created."
                 ,HttpStatus.CREATED.value(),teacher);

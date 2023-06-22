@@ -59,6 +59,7 @@ public class TeacherDTO {
     @NotNull(message = "Education level cannot be null.")
     private EducationLevel educationLevel;
 
+    @NotNull(message = "Address in general cannot be null")
     @Valid
     @JsonManagedReference(value = "teacher-address-reference")
     private AddressDTO address;
