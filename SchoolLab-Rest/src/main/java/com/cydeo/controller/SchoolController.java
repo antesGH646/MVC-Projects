@@ -93,7 +93,7 @@ public class SchoolController {
         ResponseWrapper responseWrapper = new ResponseWrapper(true, "Parents are successfully retrieved",
                 HttpStatus.ACCEPTED.value(), parentService.findAll());
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
+                .status(HttpStatus.ACCEPTED)//202 response
                 .header("Parent", "Returned")
                 .body(responseWrapper);
     }
@@ -118,8 +118,12 @@ public class SchoolController {
     /**
      * - Creating an endpoint to update individual address information
      *   and directly returning the updated address
+     *       - For the path of the endpoint must use @PathVariable
+     *       - Since you have to send a request body, need to use
+     *         the @RequestBody for the DTO
+     *       - If the id does not exit, the method should throw un exception
      * - To display the current temperature and country flag with the json response
-     *   requires consuming the external APIs
+     *   the method requires consuming an external API
      *   To consume external api
      *      1) add feign client dependency
      *      2) add @EnableFeignClient annotation in your runner class
@@ -143,7 +147,7 @@ public class SchoolController {
         TeacherDTO teacher = teacherService.createTeacher(teacherDTO);
         ResponseWrapper responseWrapper = new ResponseWrapper(true,"Teacher is created."
                 ,HttpStatus.CREATED.value(),teacher);
-
+        //returning custom headers with the json response
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("teacherId",String.valueOf(teacher.getId()))
                 .body(responseWrapper);

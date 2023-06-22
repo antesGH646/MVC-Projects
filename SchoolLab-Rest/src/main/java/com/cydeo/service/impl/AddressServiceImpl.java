@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    @Value("${access_key}")//to access values from the properties file
+    @Value("${access_key}")//accessing values from the properties file
     private String accessKey;
     private final AddressRepository addressRepository;
     private final MapperUtil mapperUtil;
@@ -43,6 +43,13 @@ public class AddressServiceImpl implements AddressService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * When a user heats the URL, if the id path is not present
+     * The method will throw an exception.
+     * @param id Long
+     * @return finds the Address by id
+     * @throws Exception
+     */
     @Override
     public AddressDTO findById(Long id) throws Exception {
         Address foundAddress = addressRepository.findById(id)

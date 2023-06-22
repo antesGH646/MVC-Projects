@@ -11,14 +11,13 @@ public interface WeatherApiClient {
 
     /**
      * This method consumes an API that asks headers.
-     * base url =
-     * endpoint =
-     * parameters:
-     *         access_key = your access key
-     *         query = your city
+     * To send the header use the @RequestParam(value = "")
+     * annotation
+     * base url => http://api.weatherstack.com
+     * endpoint => /current
+     * parameters => ?access_key = your access key&query = your city
      */
     @GetMapping("/current")
     WeatherDTO getCurrentWeather(@RequestParam(value = "access_key") String accessKey,
                                  @RequestParam(value ="query") String city);
-
 }
