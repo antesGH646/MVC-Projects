@@ -12,7 +12,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)//doest not display if the values are null
 public class ExceptionWrapper {
 
-    private LocalDateTime localDateTime;
+    private LocalDateTime timeStamp;
     private Integer status;
     private String path;
     private String message;
