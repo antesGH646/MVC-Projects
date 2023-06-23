@@ -3,6 +3,7 @@ package com.cydeo.service.impl;
 import com.cydeo.client.CountryApiClient;
 import com.cydeo.client.WeatherApiClient;
 import com.cydeo.dto.AddressDTO;
+import com.cydeo.dto.weather.WeatherDTO;
 import com.cydeo.entity.Address;
 import com.cydeo.exception.NotFoundException;
 import com.cydeo.util.MapperUtil;
@@ -48,7 +49,6 @@ public class AddressServiceImpl implements AddressService {
      * The method will throw an exception.
      * @param id Long
      * @return finds the Address by id
-     * @throws Exception
      */
     @Override
     public AddressDTO findById(Long id) throws Exception {
@@ -71,7 +71,12 @@ public class AddressServiceImpl implements AddressService {
 
     private Integer retrieveTemperatureByCity(String city) {
         //call feign client method
-        return weatherApiClient.getCurrentWeather(accessKey,city).getCurrent().getTemperature();
+        WeatherDTO response = weatherApiClient.getCurrentWeather(accessKey,city);
+        if(response ==null || response.getCurrent() ==null){
+            return null;
+        }
+
+        return response.getCurrent().getTemperature();
     }
 
     @Override

@@ -137,14 +137,22 @@ public class SchoolController {
     }
 
     /**
-        create an endpoint for creating teacher
-        return Http status 201
-        custom header "teacherId","idCreated"
-        responseWrapper("Teacher is created",teacherInfo)
+     *  Creating teachers endpoint to create teacher
+     *  return Http status 201
+     *  custom header "teacherId","idCreated"
+     *  responseWrapper("Teacher is created",teacherInfo)
+     *  To return a customized response always use the ResponseEntity<ResponseWrapper>
+     *  as a return type and pass the DTO as a parameter
+     *  The @Valid annotation tells Spring that the TeacherDTO fields will be validated
+     *  according to annotations placed on the top of them.
+     * @param teacherDTO TeacherDTO
+     * @return Customized json response
      */
     @PostMapping("/teachers")
-    public ResponseEntity<ResponseWrapper> creatTeacher(@Valid @RequestBody TeacherDTO teacherDTO) throws Exception {
+    public ResponseEntity<ResponseWrapper> creatTeacher(@Valid @RequestBody TeacherDTO teacherDTO) {
+        //wants to return TeachDTO
         TeacherDTO teacher = teacherService.createTeacher(teacherDTO);
+        //wants to return customized responses in addition to the TeacherDTO (the ResponseWrapper)
         ResponseWrapper responseWrapper = new ResponseWrapper(true,"Teacher is created."
                 ,HttpStatus.CREATED.value(),teacher);
         //returning custom headers with the json response
