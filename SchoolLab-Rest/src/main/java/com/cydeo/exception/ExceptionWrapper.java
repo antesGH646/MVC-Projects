@@ -14,7 +14,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)//doest not display if the values are null
+//inside the request body, if any field value is null, it doest not display null
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExceptionWrapper {
 
     private LocalDateTime timeStamp;
