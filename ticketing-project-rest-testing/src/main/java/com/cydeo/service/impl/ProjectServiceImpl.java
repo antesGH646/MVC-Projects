@@ -71,9 +71,6 @@ public class ProjectServiceImpl implements ProjectService {
         convertedProject.setProjectStatus(project.getProjectStatus());
 
         projectRepository.save(convertedProject);
-
-
-
     }
 
     @Override
@@ -86,7 +83,6 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
 
         taskService.deleteByProject(projectMapper.convertToDto(project));
-
     }
 
     @Override
@@ -120,10 +116,7 @@ public class ProjectServiceImpl implements ProjectService {
             obj.setUnfinishedTaskCounts(taskService.totalNonCompletedTask(project.getProjectCode()));
             obj.setCompleteTaskCounts(taskService.totalCompletedTask(project.getProjectCode()));
 
-
             return obj;
-
-
 
         }).collect(Collectors.toList());
     }
@@ -133,6 +126,4 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> list = projectRepository.findAllByAssignedManager(assignedManager);
         return list.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
     }
-
-
 }
