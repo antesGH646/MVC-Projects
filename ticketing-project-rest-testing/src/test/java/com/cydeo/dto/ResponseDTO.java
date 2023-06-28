@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseDTO {
 
+    //defining a field, format is important
     private String access_token;
 
 }
