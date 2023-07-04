@@ -99,7 +99,7 @@ public class SchoolController {
     }
 
     /**
-     * creating an endpoint for individual Address information
+     * Creating an endpoint to fetch an Address information by id
      *  e.g /address/1
      *  The following additional objects are added beside the default json objects
      *         return status code 200
