@@ -128,7 +128,8 @@ public class SchoolController {
      *      1) add feign client dependency
      *      2) add @EnableFeignClient annotation in your runner class
      *      3) create feign client interface method
-     *      4) convert the json response into DTOs and add them to the dto package
+     *      4) convert the json response into DTOs (may use online converters)
+     *          and add them to the dto package
      */
     @PutMapping("/address/{id}")
     public AddressDTO updateAddress(@PathVariable("id") Long id, @RequestBody AddressDTO addressDTO) throws Exception {
