@@ -65,14 +65,24 @@ public class AddressServiceImpl implements AddressService {
         return addressDTO;
     }
 
+    /**
+     * The method returns a countries information from a consumed API
+     * @param country String
+     * @return String
+     */
     private String retrieveFlagByCountry(String country) {
         return countryApiClient.getCountryInfo(country).get(0).getFlags().getPng();
     }
 
+    /**
+     * The method returns the temperature of a city from a consumed API
+     * @param city String
+     * @return integer
+     */
     private Integer retrieveTemperatureByCity(String city) {
         //call feign client method, to consume and fetch a data from 3rd party api
         WeatherDTO response = weatherApiClient.getCurrentWeather(accessKey,city);
-        //to prevent api break due to wrong user request body entry, wrong 3rd party fetching
+        //return null to prevent api break due to wrong user request body entry, wrong 3rd party fetching
         if(response == null || response.getCurrent() == null){
             return null;
         }
