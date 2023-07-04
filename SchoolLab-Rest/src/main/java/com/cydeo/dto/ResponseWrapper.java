@@ -25,7 +25,7 @@ public class ResponseWrapper {
     private Object data;//represents any serialized DTO
 
 
-    //accepts two parameters a message to display alon with the Json object(serialized DTO)
+    //accepts two parameters to display a message along with the Json object(serialized DTO)
     public ResponseWrapper(String message, Object data) {
         this.message = message;
         this.data = data;
@@ -33,7 +33,7 @@ public class ResponseWrapper {
         this.code = HttpStatus.OK.value();
     }
 
-    //accepts two parameters a message to display
+    //accepts a parameter to display a message
     public ResponseWrapper(String message) {
         this.message = message;
         this.success= true;
