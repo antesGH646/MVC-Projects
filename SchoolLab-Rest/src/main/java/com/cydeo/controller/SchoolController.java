@@ -121,8 +121,8 @@ public class SchoolController {
      *       - For the path of the endpoint must use @PathVariable
      *       - Since you have to send a request body, need to use
      *         the @RequestBody for the DTO
-     *       - If the id does not exit, the method should throw un exception
-     * - To display the current temperature and country flag with the json response
+     *       - If the id does not exit, the method should throw an exception
+     * - To display the current temperature and a country's flag with the json response
      *   the method requires consuming an external API
      *   To consume external api
      *      1) add feign client dependency
