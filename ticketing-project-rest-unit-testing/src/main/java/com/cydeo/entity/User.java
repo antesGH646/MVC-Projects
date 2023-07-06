@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "users")
-@Where(clause = "is_deleted=false")
+//@Where(clause = "is_deleted=false")
 public class User extends BaseEntity {
 
     private String firstName;
@@ -30,6 +30,5 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
 
 }

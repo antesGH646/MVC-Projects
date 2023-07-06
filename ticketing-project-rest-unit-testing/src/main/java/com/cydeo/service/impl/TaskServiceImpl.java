@@ -28,10 +28,7 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectMapper projectMapper;
     private final UserRepository userRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository,
-                           TaskMapper taskMapper,
-                           ProjectMapper projectMapper,
-                           UserRepository userRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper, ProjectMapper projectMapper, UserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
         this.projectMapper = projectMapper;
@@ -117,14 +114,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
 
-        //username is hard coded
-        // User loggedInUser = userRepository.findByUserName("john@employee.com");
-
-        //instead of hard coding username needs to be caught from keycloak
         Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
         SimpleKeycloakAccount details = (SimpleKeycloakAccount) authentication.getDetails();
         String username = details.getKeycloakSecurityContext().getToken().getPreferredUsername();
-        User loggedInUser = userRepository.findByUserName(username);
+
+        User loggedInUser = userRepository.findByUserNameAndIsDeleted(username,false);
 
         List<Task> list = taskRepository.findAllByTaskStatusIsNotAndAssignedEmployee(status, loggedInUser);
         return list.stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
@@ -144,15 +138,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> listAllTasksByStatus(Status status) {
-        //username is hard coded
-        // User loggedInUser = userRepository.findByUserName("john@employee.com");
 
-        //instead of hard coding username needs to be caught from keycloak
         Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
         SimpleKeycloakAccount details = (SimpleKeycloakAccount) authentication.getDetails();
         String username = details.getKeycloakSecurityContext().getToken().getPreferredUsername();
-        User loggedInUser = userRepository.findByUserName(username);
 
+        User loggedInUser = userRepository.findByUserNameAndIsDeleted(username,false);
         List<Task> list = taskRepository.findAllByTaskStatusAndAssignedEmployee(status, loggedInUser);
         return list.stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
     }

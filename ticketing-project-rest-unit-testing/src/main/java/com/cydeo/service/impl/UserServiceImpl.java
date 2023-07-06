@@ -4,15 +4,19 @@ import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.User;
+import com.cydeo.exception.TicketingProjectException;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
+import com.cydeo.service.KeycloakService;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,45 +26,57 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final KeycloakService keycloakService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService, KeycloakService keycloakService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.keycloakService = keycloakService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public List<UserDTO> listAllUsers() {
-        List<User> userList = userRepository.findAll(Sort.by("firstName"));
+
+        List<User> userList = userRepository.findAllByIsDeletedOrderByFirstNameDesc(false);
         return userList.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
 
     }
 
     @Override
     public UserDTO findByUserName(String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUserNameAndIsDeleted(username,false);
+        if (user == null) throw new NoSuchElementException("User not found");
         return userMapper.convertToDTO(user);
     }
 
     @Override
-    public void save(UserDTO dto) {
+    public UserDTO save(UserDTO dto) {
+
         dto.setEnabled(true);
+        String encodedPassword = passwordEncoder.encode(dto.getPassWord());
         User obj = userMapper.convertToEntity(dto);
-        userRepository.save(obj);
+        obj.setPassWord(encodedPassword);
+        User savedUser = userRepository.save(obj);
+        keycloakService.userCreate(dto);
+        return userMapper.convertToDTO(savedUser);
     }
 
     @Override
     public UserDTO update(UserDTO dto) {
 
-       //Find current user
-        User user = userRepository.findByUserName(dto.getUserName());
+        //Find current user
+        User user = userRepository.findByUserNameAndIsDeleted(dto.getUserName(), false);
         //Map updated user dto to entity object
         User convertedUser = userMapper.convertToEntity(dto);
         //set id to converted object
         convertedUser.setId(user.getId());
         //save updated user
         userRepository.save(convertedUser);
+
         return findByUserName(dto.getUserName());
     }
 
@@ -71,26 +87,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
-        User user = userRepository.findByUserName(username);
+    public void delete(String username) throws TicketingProjectException {
+        User user = userRepository.findByUserNameAndIsDeleted(username, false);
 
         if (checkIfUserCanBeDeleted(user)) {
             user.setIsDeleted(true);
             user.setUserName(user.getUserName() + "-" + user.getId());
             userRepository.save(user);
+            keycloakService.delete(username);
+        } else {
+            throw new TicketingProjectException("User can not be deleted");
         }
 
     }
 
-    /**
-     * If an employee has any uncompleted task
-     * or if a manager has some assigned projects
-     * you cannot delete the username or the user
-     * Otherwise you will get 500 internal server error response
-     * @param user User
-     * @return boolean
-     */
-    private boolean checkIfUserCanBeDeleted(User user) {
+    private boolean checkIfUserCanBeDeleted(User user) throws TicketingProjectException {
+
+        if (user == null) {
+            throw new TicketingProjectException("User not found");
+        }
 
         switch (user.getRole().getDescription()) {
             case "Manager":
@@ -102,11 +117,14 @@ public class UserServiceImpl implements UserService {
             default:
                 return true;
         }
+
     }
 
     @Override
     public List<UserDTO> listAllByRole(String role) {
-        List<User> users = userRepository.findAllByRoleDescriptionIgnoreCase(role);
+
+        List<User> users = userRepository.findByRoleDescriptionIgnoreCaseAndIsDeleted(role, false);
+
         return users.stream().map(userMapper::convertToDTO).collect(Collectors.toList());
     }
 }
