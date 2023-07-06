@@ -1,4 +1,4 @@
-package com.cydeo.testing_review;
+package com.cydeo.service.impl;
 
 
 import com.cydeo.dto.RoleDTO;
@@ -10,8 +10,6 @@ import com.cydeo.repository.UserRepository;
 import com.cydeo.service.KeycloakService;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
-import com.cydeo.service.impl.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,10 +21,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -128,6 +130,28 @@ public class UserServiceUnitTest {
            UserDTO expectedUserDTO = userDTO;
            //use JUnit5 assertions
         assertThat(actualUserDTO).usingRecursiveComparison().isEqualTo(expectedUserDTO);
+    }
 
+    @Test
+    void should_throw_exception_when_user_not_found() {
+        //First option: directly returning null when the method is called
+     //   lenient().when(userRepository.findByUserNameAndIsDeleted(anyString(),anyBoolean())).thenReturn(null);
+
+        //Option 2: catching the exception when the method is called
+        Throwable throwable = catchThrowable(() -> userService.findByUserName("user"));
+        //assert the if the thrown exception type
+        assertInstanceOf(NoSuchElementException.class,throwable);
+        assertEquals("User not found", throwable.getMessage());
+    }
+
+    @Test
+    void should_save_user() {
+        //whenever the encode() and the save() methods are called
+        // verify that if userCreate() method is called or not
+        when(passwordEncoder.encode(anyString())).thenReturn("Abc1");
+        when(userRepository.save(any())).thenReturn(user);
+        UserDTO actualDTO = userService.save(userDTO);//calling the method
+        verify(keycloakService).userCreate(any());//verify if the userCreate() method is called or not
+        assertThat(actualDTO).usingRecursiveComparison().isEqualTo(userDTO);
     }
 }
