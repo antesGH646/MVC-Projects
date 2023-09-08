@@ -78,7 +78,7 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
     }
 
     /**
-     * There separate UI tables (use list, task list, and project status). This method is connecting
+     * There are separate UI tables (use list, task list, and project status). This method is connecting
      * this tables to get data and return the list.
      * This method gets all the projects, filters out the projects that belong
      * to a given manager, from each project creates a new ProjectDTO (builds all args constructor)
