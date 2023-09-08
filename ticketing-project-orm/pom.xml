@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.cydeo</groupId>
-    <artifactId>ticketing-orm</artifactId>
+    <artifactId>ticketing-project-orm</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ticketing-orm</name>
-    <description>ticketing-orm</description>
+    <name>ticketing-project-orm</name>
+    <description>ticketing-project-orm</description>
 
     <properties>
         <java.version>11</java.version>
