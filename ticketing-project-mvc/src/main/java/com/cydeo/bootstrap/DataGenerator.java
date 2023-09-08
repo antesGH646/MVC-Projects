@@ -23,7 +23,8 @@ public class DataGenerator implements CommandLineRunner {
    ProjectService projectService;
    TaskService taskService;
 
-    public DataGenerator(RoleService roleService, UserService userService,
+    //injection through constructor
+   public DataGenerator(RoleService roleService, UserService userService,
                          ProjectService projectService, TaskService taskService) {
         this.roleService = roleService;
         this.userService = userService;
