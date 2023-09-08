@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class User extends BaseEntity{
+    //these are the fields shown in the user create form
     private String firstName;
     private String lastName;
     private String userName;
@@ -19,6 +20,7 @@ public class User extends BaseEntity{
     private Role role;
     private Gender gender;
 
+    //manually created all arguments constructor
     public User(Long id, LocalDateTime insertDateTime, Long insertUserId,
                 LocalDateTime lastUpdateDateTime, Long lastUpdateUserId,
                 String firstName, String lastName, String userName,

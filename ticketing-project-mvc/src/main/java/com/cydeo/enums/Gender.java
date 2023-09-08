@@ -1,5 +1,9 @@
 package com.cydeo.enums;
 
+/**
+ * Gender is created for the radio buttons gender selection
+ * in the user create form.
+ */
 public enum Gender {
 
     // MALE, FEMALE
