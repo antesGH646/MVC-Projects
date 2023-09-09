@@ -15,6 +15,17 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+/**
+ * CommandLineRunner is a component of the Spring boot
+ * Whenever you run the application first the class that
+ * implements CommandLineRunner will run. Whenever you implement it
+ * you must override the run method. Whatever lines of code you put
+ * in the run() method will run first. Here we are creating objects
+ * and then saving them.
+ * Inject all the services and add the @Component annotation to make
+ * a bean out of it, additionally add the @Services annotation on the
+ * implementing service classes.
+ */
 @Component
 public class DataGenerator implements CommandLineRunner {
 

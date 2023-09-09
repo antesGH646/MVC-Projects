@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * This Controller directs to the creat html inside the user folder
- * The User Creat page is displayed, then user entry is populated into
- * the User List table.
- * GetMapping() to get data from the User Create form
- * PostMapping to populate data into the User List table
+ * The User Creat page is displays, then a user entry data populates into
+ * the User List table. A user can delete, update a data from the table.
+ * In this controller class:
+ *     GetMapping() is used to get data from the User Create form
+ *     PostMapping() is used to populate data into the User List table
+ * Since a controller works with implementing services, first inject them
  */
 @Controller
 @RequestMapping("/user")
@@ -27,7 +29,9 @@ public class UserController {
     }
 
     /**
-     * wants to display the user objects/fields, roles, and users in the view, these objects
+     * A user wants to enter a data in a displayed form, save the form, then create a table
+     * out of the data.
+     * The user objects/fields, roles, and users in the view, these objects
      * will be integrated into the create.html file found in the user sub-folder
      * To carry the attributes into the html file, you need to create a Model attribute and add the
      * objects into it using the addAttribute() method

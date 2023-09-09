@@ -101,6 +101,8 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Choose a Role</label>
+                                                 <!--th:field automatically creates name and id values in the html
+                                                      in this case a tester can use id or name locators-->
                                                     <select  th:field="*{role}" class="custom-select">
                                                         <option th:value="''" th:text="Select"></option>
                                                         <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.description}"></option>
@@ -157,7 +159,8 @@
                                             </thead>
 
                                             <tbody>
-                                        <!-- to display data on the User List table-->
+                                        <!-- to display data on the User List table, users is the model attribute
+                                             that carries all the userService (fetched UserDTOs) -->
                                             <tr th:each="user : ${users}">
                                                 <td th:text="${user.firstName + ' ' + user.lastName}"></td>
                                                 <td th:text="${user.userName}"></td>

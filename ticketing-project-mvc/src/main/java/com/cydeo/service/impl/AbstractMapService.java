@@ -5,9 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Creating an abstract class that implements the generic methods
+ * defined in the CrudService
+ * @param <T> T
+ * @param <ID> ID
+ */
 public abstract class AbstractMapService<T,ID> {
 
-    //stores data that comes from the data generator, simulates database
+    //stores data that comes from the data generator that simulates the database
     protected Map<ID,T> map = new HashMap<>();
 
     //will add the type e.g. role or user into the map object
