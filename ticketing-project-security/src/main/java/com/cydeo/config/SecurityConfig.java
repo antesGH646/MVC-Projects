@@ -17,15 +17,15 @@ public class SecurityConfig {
         this.authSuccessHandler = authSuccessHandler;
     }
 
-//    /**
-//     * The first login is comes from spring-boot not from your application
-//     * This method overrides the Spring boot authentication.
-//     * Behind the scene the user entry user details are encoded.
-//     * This method do not validate with the database.
-//     * Instead, it validates with what is in the memory
-//     * @param passwordEncoder PasswordEncoder
-//     * @return encoded password
-//     */
+    /**
+     * The first login is comes from spring-boot not from your application
+     * This method overrides the Spring boot authentication.
+     * Behind the scene the user entry user details are encoded.
+     * This method do not validate with the database.
+     * Instead, it validates with what is in the memory
+     * @param passwordEncoder PasswordEncoder
+     * @return encoded password
+     */
 //    @Bean
 //    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
 //        //manually creating a list of user details and adding users
@@ -57,7 +57,7 @@ public class SecurityConfig {
 //                .antMatchers("/user/**").hasRole("Admin")
                 .antMatchers("/user/**").hasAuthority("Admin")
                 .antMatchers("/project/**").hasAuthority("Manager")
-                .antMatchers("/task/employee/**").hasAuthority("Employee")
+                .antMatchers("/task/create/**").hasAuthority("Employee")
                 .antMatchers("/task/**").hasAuthority("Manager")
 //                .antMatchers("/task/**").hasAnyRole("EMPLOYEE","ADMIN")
 //                .antMatchers("task/**").hasAuthority("ROLE_EMPLOYEE")
