@@ -4,7 +4,6 @@ import com.cydeo.enums.AccountStatus;
 import com.cydeo.enums.AccountType;
 import lombok.*;
 
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -21,14 +20,20 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDTO {
+
     private Long id; //Universal Unique Identifier
+
     @NotNull
     @Positive
     private BigDecimal balance; //handles big decimals and is more precise
+
     @NotNull
     private AccountType accountType;//to handle checking and saving accounts
+
     private Date creationDate;//the handle the creating date
+
     @NotNull
     private Long userId; //to uniquely identify a user
+
     private AccountStatus accountStatus;
 }

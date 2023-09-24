@@ -31,6 +31,7 @@ public class Account {
     private Date creationDate;
 
     private Long userId;
+
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 }

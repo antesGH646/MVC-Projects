@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
 
 
-    //private final forces to create a constructor, must add @component annotation on both classes
-    //this class and the AccountRepository
+    //private final forces to create a constructor, must add @component annotation
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
@@ -57,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Long id) {
         //find the account object based on id
         Account account = accountRepository.findById(id).get();
-        //update the accountStatus of that object.
+        //set the fetched object account status to DELETED
         account.setAccountStatus(AccountStatus.DELETED);
         //save the updated account object.
         accountRepository.save(account);
@@ -65,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO retrieveById(Long id) {
-        //find the account entity based on id, then convert it to dto and return it
+        //find the account entity based on id, then convert it to dto and then return it
         return accountMapper.convertToDTO(accountRepository.findById(id).get());
     }
 
@@ -73,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
     public void activateAccount(Long id) {
         //find the account object based on id
         Account account = accountRepository.findById(id).get();
-        //update the accountStatus of that object.
+        //set the fetched object account status to ACTIVE.
         account.setAccountStatus(AccountStatus.ACTIVE);
         accountRepository.save(account);
 

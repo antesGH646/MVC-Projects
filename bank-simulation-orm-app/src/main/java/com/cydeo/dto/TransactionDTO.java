@@ -20,17 +20,23 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionDTO {
+
     //declare fields/attributes
+
     @NotNull
     private AccountDTO receiver;//to uniquely identify a receiver
+
     @NotNull
     private AccountDTO sender;//to uniquely identify a sender
+
     @NotNull
     @Positive
     private BigDecimal amount;//to store the amount sent or received
+
     @NotNull
     @Size(min = 2,max = 250)
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     private String message; //to store a message
+
     private Date creationDate; //to store date of transfer
 }

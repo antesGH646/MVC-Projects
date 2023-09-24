@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The business logic is to create an account and store the list of created accounts.
  * The common practice is to make services with abstract methods.
- * This class contains abstract methods, the first abstract method is to create
+ * This interface contains abstract methods, the first abstract method is to create
  * an account with its required parameters. The required parameter are, the account type,
  * the balance of the account, the date of creation, and a user id.
  * The second abstract method stores a list of the created accounts.
