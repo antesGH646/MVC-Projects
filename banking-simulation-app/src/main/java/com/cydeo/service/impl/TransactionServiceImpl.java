@@ -97,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
     /**
      * Verifies if the sender has enough balance to send or not
      * NB. Since the balance is BigDecimal type, BigDecimal has subtract()
-     * and compareTo() methods to work with numbers to subtract an compare two numbers
+     * and compareTo() methods to work with numbers to subtract and compare two numbers
      * @param sender Account
      * @param amount Account
      * @return boolean if the sender and receiver are equal or not

@@ -21,14 +21,19 @@ import java.util.UUID;
 @Data
 @Builder
 public class Account {
-    private UUID id; //Universal Unique Identifier
-    @NotNull
-    @Positive
+    private UUID id; //Universal Unique Identifier ID
+
+    @NotNull //validation added, user cannot enter null or leave it blank
+    @Positive //the entered number should be positive
     private BigDecimal balance; //handles big decimals and is more precise
+
     @NotNull
     private AccountType accountType;//to handle checking and saving accounts
+
     private Date creationDate;//the handle the creating date
+
     @NotNull
     private Long userId; //to uniquely identify a user
+
     private AccountStatus accountStatus;
 }

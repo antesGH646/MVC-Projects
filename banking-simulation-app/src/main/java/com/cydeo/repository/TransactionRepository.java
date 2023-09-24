@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * A repository is a layer that fetches data from the database
+ * This class is simulating the repository interface
+ */
 @Component
 public class TransactionRepository {
 

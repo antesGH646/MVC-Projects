@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A repository is a layer that fetches data from the database
+ * This class is simulating the repository interface
+ */
 @Component
 public class AccountRepository {
     //stores list of account type

@@ -24,14 +24,18 @@ public class Transaction {
     //declare fields/attributes
     @NotNull
     private UUID receiver;//to uniquely identify a receiver
+
     @NotNull
     private UUID sender;//to uniquely identify a sender
+
     @NotNull
     @Positive
     private BigDecimal amount;//to store the amount sent or received
+
     @NotNull
     @Size(min = 2,max = 250)
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     private String message; //to store a message
+
     private Date creationDate; //to store date of transfer
 }
