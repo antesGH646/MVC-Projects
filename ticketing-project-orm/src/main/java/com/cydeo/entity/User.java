@@ -22,14 +22,14 @@ public class User extends BaseEntity {
 
     //to avoid duplicated username, and should not be null
     @Column(unique = true, nullable = false)
-
     private String userName;
+
     private String passWord;
     private boolean enabled;
     private String phone;
 
-    //mapping to create the relationship, many user can have one role
-    @ManyToOne
+
+    @ManyToOne//mapping to create the relationship, many users can have one role
     @JoinColumn(name="role_id")//good practice to name the jpa generated foreign key
     private Role role;
 
