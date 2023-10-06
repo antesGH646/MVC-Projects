@@ -24,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -38,6 +37,9 @@ class ProjectControllerTest {
     static ProjectDTO projectDTO;
 
     static String token;
+
+//    @Value("${keycloak.credentials.secret}")
+//    static String clientSecret;
 
     @BeforeAll
     static void setUp() {
@@ -149,6 +151,7 @@ class ProjectControllerTest {
         map.add("grant_type", "password");
         map.add("client_id", "ticketing-app");
         map.add("client_secret", "zn1xr4X3jK2BVou8oCOr2L4Cae2aOPN5");
+        //map.add("client_secret", clientSecret);
         map.add("username", "Ozzy");
         map.add("password", "Abc1");
         map.add("scope", "openid");

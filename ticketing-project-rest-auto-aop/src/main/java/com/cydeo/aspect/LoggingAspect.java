@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * You can log any action inside the application methods, but using Spring AOP you can
  * monitor any performed action of any class method separately inside an aspect class.
- * An aspect class must have both the @Aspect and @Configuration class.
+ * An aspect class must have both the @Aspect and @Configuration annotations.
  */
 @Aspect//marks that this is an aspect class
 @Configuration//marks that this is a configuration class

@@ -20,7 +20,7 @@ public class SecurityConfig {
     /**
      * The first login is comes from spring-boot not from your application
      * This method overrides the Spring boot authentication.
-     * Behind the scene the user entry user details are encoded.
+     * Behind the scene the user entry details are encoded.
      * This method do not validate with the database.
      * Instead, it validates with what is in the memory
      * @param passwordEncoder PasswordEncoder

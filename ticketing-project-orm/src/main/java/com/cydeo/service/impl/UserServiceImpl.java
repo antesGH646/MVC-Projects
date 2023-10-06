@@ -59,11 +59,11 @@ public class UserServiceImpl implements UserService {
 
     /**
      * When you are updating, if you do not capture and keep the id,
-     * it will create a new record but will not update it.
+     * it will create a new record, but it will not update it.
      * To save UI modified objects or DTO objects in the database you need to
      * convert them into entity objects
      * You need to capture the ID of the object and assign it to the converted entity
-     * At last save the converted object.
+     * then save the converted object.
      * @param dto UserDTO object
      * @return UserDTO object to display it again on the UI form. Every UI displayed object
      * is DTO object
