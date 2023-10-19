@@ -13,8 +13,9 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "users")
-@Where(clause = "is_deleted=false")//this clause will automatically be added/concatenated
-// to whatever repository method that uses the User entity, it helps to add more filter
+@Where(clause = "is_deleted=false")//this clause will automatically be added/concatenated,
+// whatever repository method that uses the User entity has additional filtering,
+// in the DB table, a row/data is_Deleted set to false will be fetched & used by whatever repository method
 public class User extends BaseEntity {
 
     private String firstName;

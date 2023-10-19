@@ -14,7 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@Where(clause = "is_deleted=false")
+@Where(clause = "is_deleted=false")//this clause will automatically be added/concatenated,
+// whatever repository method that uses the Task entity has additional filtering,
+// in the DB table, a row/data is_Deleted set to false will be fetched & used by whatever repository method
 public class Task extends BaseEntity{
     private String taskSubject;
     private String taskDetail;
